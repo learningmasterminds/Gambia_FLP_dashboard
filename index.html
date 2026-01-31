@@ -896,9 +896,10 @@
     </footer>
 
     <script>
-        // ========================================
-        // SECURITY / AUTH LOGIC
-        // ========================================
+        // Global Data
+        let allData = [];
+        let filteredData = [];
+
         const ACCESS_KEYS = {
             "alhagiesow@gmail.com": "ASW-762",
             "aboukhan4@gmail.com": "ABK-291",
@@ -1175,8 +1176,6 @@
         // DASHBOARD LOGIC
         // ========================================
         const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTADigssvh4UCjCLyZ4SEAqQWJlWUqlrYk9AOGUB8a2Qop6Yglvn1IGj9rOArZoSWet3P5BV0KU5w4X/pub?gid=1041792494&single=true&output=csv";
-        let allData = [];
-        let filteredData = [];
 
         async function loadData() {
             try {
