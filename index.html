@@ -304,6 +304,85 @@
             background: #fafafa;
         }
 
+        /* Success Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2.5rem;
+            border-radius: var(--radius);
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .modal-icon {
+            font-size: 4rem;
+            color: var(--success);
+            margin-bottom: 1rem;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .modal-btn {
+            flex: 1;
+            padding: 0.75rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid var(--border);
+        }
+
+        .modal-btn-primary {
+            background: var(--primary);
+            color: white;
+            border: none;
+        }
+
+        .modal-btn-secondary {
+            background: #f1f5f9;
+            color: var(--text-secondary);
+        }
+
+        .logout-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 99px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            margin-top: 0.5rem;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
         .submit-btn {
             width: 100%;
             background: var(--primary);
@@ -566,9 +645,15 @@
             </div>
 
             <div id="formWrapper">
+                <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 1rem;">
+                    <div></div>
+                    <button class="logout-btn" id="logoutBtn">🔒 Logout</button>
+                </div>
                 <form id="submissionForm">
                     <section class="form-section">
-                        <h2 class="section-title">👤 Writer Information</h2>
+                        <h2 class="section-title">👤 Writer Information <span
+                                style="font-size: 0.7rem; color: var(--text-secondary); margin-left: auto;">Verified</span>
+                        </h2>
                         <div class="grid-2">
                             <div class="field-group">
                                 <label for="writer_name">Full Name</label>
@@ -576,16 +661,11 @@
                                     placeholder="Enter your full name">
                             </div>
                             <div class="field-group">
-                                <label for="submitter_email">Submitter Email (ID)</label>
-                                <input type="email" id="submitter_email" name="submitter_email" required
-                                    placeholder="your.email@example.com">
+                                <label for="submitter_email">Submitter Email</label>
+                                <input type="email" id="submitter_email" name="submitter_email" required readonly>
                             </div>
                         </div>
                         <div class="grid-2">
-                            <div class="field-group">
-                                <label for="writer_id">Writer ID (Optional)</label>
-                                <input type="text" id="writer_id" name="writer_id" placeholder="e.g., WRT-001">
-                            </div>
                             <div class="field-group">
                                 <label for="submission_date">Submission Date</label>
                                 <input type="date" id="submission_date" name="submission_date" required>
@@ -810,6 +890,15 @@
         const formWrapper = document.getElementById('formWrapper');
         const authError = document.getElementById('authError');
         const submitterEmailField = document.getElementById('submitter_email');
+        const logoutBtn = document.getElementById('logoutBtn');
+
+        function forceLogout() {
+            authScreen.style.display = 'block';
+            formWrapper.style.display = 'none';
+            document.getElementById('authForm').reset();
+            document.getElementById('submissionForm').reset();
+            document.getElementById('fileInfo').style.display = 'none';
+        }
 
         authForm.addEventListener('submit', (e) => {
             e.preventDefault();
@@ -832,16 +921,7 @@
             }
         });
 
-        // Check session storage on load
-        if (sessionStorage.getItem('v_verified') === 'true') {
-            const savedEmail = sessionStorage.getItem('v_email');
-            if (ACCESS_KEYS[savedEmail]) {
-                authScreen.style.display = 'none';
-                formWrapper.style.display = 'block';
-                submitterEmailField.value = savedEmail;
-                submitterEmailField.readOnly = true;
-            }
-        }
+        logoutBtn.onclick = forceLogout;
 
         // ========================================
         // TAB NAVIGATION
@@ -939,17 +1019,35 @@
             }
         };
 
-        // Submit (Mock)
+        // Submit
+        const successModal = document.getElementById('successModal');
         document.getElementById('submissionForm').onsubmit = (e) => {
             e.preventDefault();
             const btn = document.getElementById('submitBtn');
             btn.disabled = true; btn.textContent = 'Submitting...';
+
+            // In a real scenario, this would be an actual fetch to Apps Script
             setTimeout(() => {
-                alert('Submission successful!');
-                document.getElementById('submissionForm').reset();
+                successModal.style.display = 'flex';
                 btn.disabled = false; btn.textContent = 'Submit Material';
-                document.getElementById('fileInfo').style.display = 'none';
             }, 1000);
+        };
+
+        document.getElementById('successBtnAnother').onclick = () => {
+            const savedName = document.getElementById('writer_name').value;
+            const savedEmail = document.getElementById('submitter_email').value;
+
+            document.getElementById('submissionForm').reset();
+            document.getElementById('writer_name').value = savedName;
+            document.getElementById('submitter_email').value = savedEmail;
+            document.getElementById('fileInfo').style.display = 'none';
+            successModal.style.display = 'none';
+            typeSelect.disabled = true;
+        };
+
+        document.getElementById('successBtnLogout').onclick = () => {
+            successModal.style.display = 'none';
+            forceLogout();
         };
 
         // ========================================
