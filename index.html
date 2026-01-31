@@ -165,6 +165,75 @@
             font-size: 0.95rem;
         }
 
+        /* Auth Screen Styles */
+        .auth-container {
+            max-width: 450px;
+            margin: 4rem auto;
+            padding: 2.5rem;
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .auth-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+        }
+
+        .auth-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        .auth-subtitle {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .auth-form .field-group {
+            text-align: left;
+        }
+
+        .auth-btn {
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            padding: 1rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 1rem;
+        }
+
+        .auth-btn:hover {
+            background: #1e40af;
+            transform: translateY(-1px);
+        }
+
+        .auth-error {
+            color: var(--danger);
+            font-size: 0.85rem;
+            margin-top: 1rem;
+            display: none;
+            padding: 0.75rem;
+            background: #fef2f2;
+            border-radius: 6px;
+            border: 1px solid #fee2e2;
+        }
+
+        /* Form Visibility */
+        #formWrapper {
+            display: none;
+        }
+
         input[type="text"],
         input[type="email"],
         input[type="date"],
@@ -475,104 +544,130 @@
     <div class="container">
         <!-- TAB 1: SUBMISSION FORM -->
         <div id="tab-content-submit" class="tab-content active">
-            <form id="submissionForm">
-                <section class="form-section">
-                    <h2 class="section-title">👤 Writer Information</h2>
-                    <div class="grid-2">
-                        <div class="field-group">
-                            <label for="writer_name">Full Name</label>
-                            <input type="text" id="writer_name" name="writer_name" required
-                                placeholder="Enter your full name">
-                        </div>
-                        <div class="field-group">
-                            <label for="submitter_email">Submitter Email (ID)</label>
-                            <input type="email" id="submitter_email" name="submitter_email" required
-                                placeholder="your.email@example.com">
-                        </div>
-                    </div>
-                    <div class="grid-2">
-                        <div class="field-group">
-                            <label for="writer_id">Writer ID (Optional)</label>
-                            <input type="text" id="writer_id" name="writer_id" placeholder="e.g., WRT-001">
-                        </div>
-                        <div class="field-group">
-                            <label for="submission_date">Submission Date</label>
-                            <input type="date" id="submission_date" name="submission_date" required>
-                        </div>
-                    </div>
-                </section>
 
-                <section class="form-section">
-                    <h2 class="section-title">📖 Material Identification</h2>
-                    <div class="grid-2">
-                        <div class="field-group">
-                            <label for="language">Language</label>
-                            <select id="language" name="language" required>
-                                <option value="">Select Language</option>
-                                <option value="English">English</option>
-                                <option value="Mandinka">Mandinka</option>
-                                <option value="Pulaar">Pulaar (Fula)</option>
-                                <option value="Jola">Jola</option>
-                                <option value="Wolof">Wolof (Olof)</option>
-                                <option value="Serer">Serer (Seereer)</option>
-                                <option value="Manjaku">Manjaku</option>
-                                <option value="Sarahule">Sarahule (Serahule)</option>
-                            </select>
-                        </div>
-                        <div class="field-group">
-                            <label for="grade_level">Grade Level</label>
-                            <select id="grade_level" name="grade_level" required>
-                                <option value="">Select Grade</option>
-                                <option value="ECD_2">ECD 2</option>
-                                <option value="ECD_3">ECD 3</option>
-                                <option value="Grade_1">Grade 1</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="grid-2">
-                        <div class="field-group">
-                            <label for="material_type">Material Type</label>
-                            <select id="material_type" name="material_type" required disabled>
-                                <option value="">Select Grade First</option>
-                            </select>
-                        </div>
-                        <div class="field-group">
-                            <label for="term">Term</label>
-                            <select id="term" name="term" required>
-                                <option value="Term_2">Term 2 (Lessons 51-100)</option>
-                                <option value="Term_3">Term 3 (Lessons 101-150)</option>
-                            </select>
-                        </div>
-                    </div>
-                </section>
+            <!-- Verification Screen -->
+            <div id="authScreen" class="auth-container">
+                <div class="auth-icon">🔒</div>
+                <h2 class="auth-title">Writer Verification</h2>
+                <p class="auth-subtitle">Please enter your registered email and access code to continue.</p>
 
-                <section class="form-section">
-                    <h2 class="section-title">📊 Lesson Coverage (Lessons 51-100)</h2>
-                    <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">Select all lessons
-                        covered in this submission.</p>
-                    <div class="lesson-grid-container" id="lessonGrid"></div>
-                </section>
-
-                <section class="form-section">
-                    <h2 class="section-title">📤 Document Upload</h2>
-                    <div class="upload-area" id="dropZone">
-                        <div style="font-size: 2rem; margin-bottom: 1rem;">📄</div>
-                        <p><b>Click to upload</b> or drag and drop</p>
-                        <p style="font-size: 0.8rem; color: var(--text-secondary);">Word (.docx) or PDF (Max 25MB)</p>
-                        <input type="file" id="file_upload" name="file_upload" accept=".doc,.docx,.pdf"
-                            style="display: none;" required>
+                <form id="authForm" class="auth-form">
+                    <div class="field-group">
+                        <label for="auth_email">Official Email</label>
+                        <input type="email" id="auth_email" required placeholder="name@example.com">
                     </div>
-                    <div id="fileInfo"
-                        style="margin-top: 1rem; display: none; color: var(--success); font-weight: 600;">Selected:
-                        <span id="fileName"></span></div>
-                    <div class="field-group" style="margin-top: 1.5rem;">
-                        <label for="additional_notes">Additional Notes</label>
-                        <textarea id="additional_notes" name="additional_notes" rows="3"></textarea>
+                    <div class="field-group">
+                        <label for="auth_code">Access Code</label>
+                        <input type="text" id="auth_code" required placeholder="XXX-000" maxlength="7">
                     </div>
-                </section>
+                    <button type="submit" class="auth-btn">Verify Identity</button>
+                    <div id="authError" class="auth-error">Invalid email or access code. Please try again.</div>
+                </form>
+            </div>
 
-                <button type="submit" class="submit-btn" id="submitBtn">Submit Material</button>
-            </form>
+            <div id="formWrapper">
+                <form id="submissionForm">
+                    <section class="form-section">
+                        <h2 class="section-title">👤 Writer Information</h2>
+                        <div class="grid-2">
+                            <div class="field-group">
+                                <label for="writer_name">Full Name</label>
+                                <input type="text" id="writer_name" name="writer_name" required
+                                    placeholder="Enter your full name">
+                            </div>
+                            <div class="field-group">
+                                <label for="submitter_email">Submitter Email (ID)</label>
+                                <input type="email" id="submitter_email" name="submitter_email" required
+                                    placeholder="your.email@example.com">
+                            </div>
+                        </div>
+                        <div class="grid-2">
+                            <div class="field-group">
+                                <label for="writer_id">Writer ID (Optional)</label>
+                                <input type="text" id="writer_id" name="writer_id" placeholder="e.g., WRT-001">
+                            </div>
+                            <div class="field-group">
+                                <label for="submission_date">Submission Date</label>
+                                <input type="date" id="submission_date" name="submission_date" required>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="form-section">
+                        <h2 class="section-title">📖 Material Identification</h2>
+                        <div class="grid-2">
+                            <div class="field-group">
+                                <label for="language">Language</label>
+                                <select id="language" name="language" required>
+                                    <option value="">Select Language</option>
+                                    <option value="English">English</option>
+                                    <option value="Mandinka">Mandinka</option>
+                                    <option value="Pulaar">Pulaar (Fula)</option>
+                                    <option value="Jola">Jola</option>
+                                    <option value="Wolof">Wolof (Olof)</option>
+                                    <option value="Serer">Serer (Seereer)</option>
+                                    <option value="Manjaku">Manjaku</option>
+                                    <option value="Sarahule">Sarahule (Serahule)</option>
+                                </select>
+                            </div>
+                            <div class="field-group">
+                                <label for="grade_level">Grade Level</label>
+                                <select id="grade_level" name="grade_level" required>
+                                    <option value="">Select Grade</option>
+                                    <option value="ECD_2">ECD 2</option>
+                                    <option value="ECD_3">ECD 3</option>
+                                    <option value="Grade_1">Grade 1</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="grid-2">
+                            <div class="field-group">
+                                <label for="material_type">Material Type</label>
+                                <select id="material_type" name="material_type" required disabled>
+                                    <option value="">Select Grade First</option>
+                                </select>
+                            </div>
+                            <div class="field-group">
+                                <label for="term">Term</label>
+                                <select id="term" name="term" required>
+                                    <option value="Term_2">Term 2 (Lessons 51-100)</option>
+                                    <option value="Term_3">Term 3 (Lessons 101-150)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="form-section">
+                        <h2 class="section-title">📊 Lesson Coverage (Lessons 51-100)</h2>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">Select all
+                            lessons
+                            covered in this submission.</p>
+                        <div class="lesson-grid-container" id="lessonGrid"></div>
+                    </section>
+
+                    <section class="form-section">
+                        <h2 class="section-title">📤 Document Upload</h2>
+                        <div class="upload-area" id="dropZone">
+                            <div style="font-size: 2rem; margin-bottom: 1rem;">📄</div>
+                            <p><b>Click to upload</b> or drag and drop</p>
+                            <p style="font-size: 0.8rem; color: var(--text-secondary);">Word (.docx) or PDF (Max 25MB)
+                            </p>
+                            <input type="file" id="file_upload" name="file_upload" accept=".doc,.docx,.pdf"
+                                style="display: none;" required>
+                        </div>
+                        <div id="fileInfo"
+                            style="margin-top: 1rem; display: none; color: var(--success); font-weight: 600;">Selected:
+                            <span id="fileName"></span>
+                        </div>
+                        <div class="field-group" style="margin-top: 1.5rem;">
+                            <label for="additional_notes">Additional Notes</label>
+                            <textarea id="additional_notes" name="additional_notes" rows="3"></textarea>
+                        </div>
+                    </section>
+
+                    <button type="submit" class="submit-btn" id="submitBtn">Submit Material</button>
+                </form>
+            </div>
         </div>
 
         <!-- TAB 2: DASHBOARD -->
@@ -689,6 +784,65 @@
     </footer>
 
     <script>
+        // ========================================
+        // SECURITY / AUTH LOGIC
+        // ========================================
+        const ACCESS_KEYS = {
+            "alhagiesow@gmail.com": "ASW-762",
+            "aboukhan4@gmail.com": "ABK-291",
+            "ssurakata8@gmail.com": "SSK-483",
+            "mamudout@gmail.com": "MMD-105",
+            "victoriagor@gmail.com": "VIC-339",
+            "jjmendy66@gmail.com": "JJM-882",
+            "bittayeami@gmail.com": "BTA-514",
+            "gaindow0@gmail.com": "GDW-627",
+            "madun.ma@gmail.com": "MDN-441",
+            "ansusanya@gmail.com": "ASN-992",
+            "laminbjam@gmail.com": "LJM-308",
+            "amsanjie7@gmail.com": "AMS-176",
+            "saphiecam@gmail.com": "SPC-825",
+            "camaralisa@gmail.com": "CLS-903",
+            "nasir.baba@learningmasterminds.org": "NSB-001"
+        };
+
+        const authForm = document.getElementById('authForm');
+        const authScreen = document.getElementById('authScreen');
+        const formWrapper = document.getElementById('formWrapper');
+        const authError = document.getElementById('authError');
+        const submitterEmailField = document.getElementById('submitter_email');
+
+        authForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('auth_email').value.trim().toLowerCase();
+            const code = document.getElementById('auth_code').value.trim().toUpperCase();
+
+            if (ACCESS_KEYS[email] === code) {
+                // Success
+                authScreen.style.display = 'none';
+                formWrapper.style.display = 'block';
+                submitterEmailField.value = email;
+                submitterEmailField.readOnly = true;
+                authError.style.display = 'none';
+
+                // Save session (optional for current page reload)
+                sessionStorage.setItem('v_verified', 'true');
+                sessionStorage.setItem('v_email', email);
+            } else {
+                authError.style.display = 'block';
+            }
+        });
+
+        // Check session storage on load
+        if (sessionStorage.getItem('v_verified') === 'true') {
+            const savedEmail = sessionStorage.getItem('v_email');
+            if (ACCESS_KEYS[savedEmail]) {
+                authScreen.style.display = 'none';
+                formWrapper.style.display = 'block';
+                submitterEmailField.value = savedEmail;
+                submitterEmailField.readOnly = true;
+            }
+        }
+
         // ========================================
         // TAB NAVIGATION
         // ========================================
