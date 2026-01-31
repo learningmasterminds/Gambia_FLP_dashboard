@@ -754,35 +754,51 @@
                         </div>
                     </section>
 
-                    <section class="form-section">
-                        <h2 class="section-title">📊 Lesson Coverage (Lessons 51-100)</h2>
-                        <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">Select all
-                            lessons
-                            covered in this submission.</p>
-                        <div class="lesson-grid-container" id="lessonGrid"></div>
-                    </section>
+                    <!-- Continue Button -->
+                    <div id="continueSection" style="text-align: center; margin: 1.5rem 0;">
+                        <button type="button" id="continueBtn" class="submit-btn"
+                            style="max-width: 300px; background: #64748b;" disabled>
+                            ➡️ Continue to Select Lessons
+                        </button>
+                        <p id="continueHint"
+                            style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 0.5rem;">Please complete
+                            all fields above first</p>
+                    </div>
 
-                    <section class="form-section">
-                        <h2 class="section-title">📤 Document Upload</h2>
-                        <div class="upload-area" id="dropZone">
-                            <div style="font-size: 2rem; margin-bottom: 1rem;">📄</div>
-                            <p><b>Click to upload</b> or drag and drop</p>
-                            <p style="font-size: 0.8rem; color: var(--text-secondary);">Word (.docx) or PDF (Max 25MB)
-                            </p>
-                            <input type="file" id="file_upload" name="file_upload" accept=".doc,.docx,.pdf"
-                                style="display: none;" required>
-                        </div>
-                        <div id="fileInfo"
-                            style="margin-top: 1rem; display: none; color: var(--success); font-weight: 600;">Selected:
-                            <span id="fileName"></span>
-                        </div>
-                        <div class="field-group" style="margin-top: 1.5rem;">
-                            <label for="additional_notes">Additional Notes</label>
-                            <textarea id="additional_notes" name="additional_notes" rows="3"></textarea>
-                        </div>
-                    </section>
+                    <!-- Hidden until Continue is clicked -->
+                    <div id="lessonsAndUploadSection" style="display: none;">
+                        <section class="form-section">
+                            <h2 class="section-title">📊 Lesson Coverage (Lessons 51-100)</h2>
+                            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">Select all
+                                lessons
+                                covered in this submission.</p>
+                            <div class="lesson-grid-container" id="lessonGrid"></div>
+                        </section>
 
-                    <button type="submit" class="submit-btn" id="submitBtn">Submit Material</button>
+                        <section class="form-section">
+                            <h2 class="section-title">📤 Document Upload</h2>
+                            <div class="upload-area" id="dropZone">
+                                <div style="font-size: 2rem; margin-bottom: 1rem;">📄</div>
+                                <p><b>Click to upload</b> or drag and drop</p>
+                                <p style="font-size: 0.8rem; color: var(--text-secondary);">Word (.docx) or PDF (Max
+                                    25MB)
+                                </p>
+                                <input type="file" id="file_upload" name="file_upload" accept=".doc,.docx,.pdf"
+                                    style="display: none;" required>
+                            </div>
+                            <div id="fileInfo"
+                                style="margin-top: 1rem; display: none; color: var(--success); font-weight: 600;">
+                                Selected:
+                                <span id="fileName"></span>
+                            </div>
+                            <div class="field-group" style="margin-top: 1.5rem;">
+                                <label for="additional_notes">Additional Notes</label>
+                                <textarea id="additional_notes" name="additional_notes" rows="3"></textarea>
+                            </div>
+                        </section>
+
+                        <button type="submit" class="submit-btn" id="submitBtn">Submit Material</button>
+                    </div> <!-- End of lessonsAndUploadSection -->
                 </form>
             </div>
         </div>
@@ -1034,6 +1050,37 @@
                 typeSelect.disabled = true;
                 typeSelect.innerHTML = '<option value="">Select Grade First</option>';
             }
+            checkContinueReady();
+        });
+
+        // Continue Button Logic
+        const continueBtn = document.getElementById('continueBtn');
+        const continueHint = document.getElementById('continueHint');
+        const lessonsSection = document.getElementById('lessonsAndUploadSection');
+
+        function checkContinueReady() {
+            const lang = document.getElementById('language').value;
+            const grade = document.getElementById('grade_level').value;
+            const type = document.getElementById('material_type').value;
+            const term = document.getElementById('term').value;
+
+            const ready = lang && grade && type && term;
+            continueBtn.disabled = !ready;
+            continueBtn.style.background = ready ? 'var(--primary)' : '#64748b';
+            continueHint.style.display = ready ? 'none' : 'block';
+        }
+
+        // Listen for all material ID fields
+        ['language', 'grade_level', 'material_type', 'term'].forEach(id => {
+            document.getElementById(id).addEventListener('change', checkContinueReady);
+        });
+
+        continueBtn.addEventListener('click', () => {
+            refreshLessonGrid();
+            lessonsSection.style.display = 'block';
+            document.getElementById('continueSection').style.display = 'none';
+            // Scroll to lessons
+            lessonsSection.scrollIntoView({ behavior: 'smooth' });
         });
 
         // Helper: Calculate Week from lesson string (e.g., '51_52' -> Week 1)
@@ -1113,13 +1160,8 @@
             });
         }
 
-        // Initialize grid
+        // Initialize grid (will be refreshed when Continue is clicked)
         refreshLessonGrid();
-
-        // Listen for form changes to update guidance
-        document.getElementById('language').addEventListener('change', refreshLessonGrid);
-        document.getElementById('grade_level').addEventListener('change', refreshLessonGrid);
-        document.getElementById('material_type').addEventListener('change', refreshLessonGrid);
 
         // File Selection
         const dropZone = document.getElementById('dropZone');
