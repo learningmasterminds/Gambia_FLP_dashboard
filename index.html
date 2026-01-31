@@ -287,6 +287,23 @@
             border: 1px solid var(--border);
             border-radius: 6px;
             cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .checkbox-item.already-submitted {
+            background: #f0fdf4;
+            border-color: #bbf7d0;
+            color: #166534;
+            position: relative;
+        }
+
+        .checkbox-item.already-submitted::after {
+            content: '✓ Submitted';
+            position: absolute;
+            right: 8px;
+            font-size: 0.6rem;
+            color: var(--success);
+            font-weight: 700;
         }
 
         .checkbox-item input {
@@ -998,32 +1015,69 @@
             }
         });
 
-        // Grid Generation
-        const grid = document.getElementById('lessonGrid');
-        const weeks = [
-            { id: 1, range: '51-55', lessons: [['51_52', '51/52'], ['53_54', '53/54'], ['55', '55']] },
-            { id: 2, range: '56-60', lessons: [['56_57', '56/57'], ['58_59', '58/59'], ['60', '60']] },
-            { id: 3, range: '61-65', lessons: [['61_62', '61/62'], ['63_64', '63/64'], ['65', '65']] },
-            { id: 4, range: '66-70', lessons: [['66_67', '66/67'], ['68_69', '68/69'], ['70', '70']] },
-            { id: 5, range: '71-75', lessons: [['71_72', '71/72'], ['73_74', '73/74'], ['75', '75']] },
-            { id: 6, range: '76-80', lessons: [['76_77', '76/77'], ['78_79', '78/79'], ['80', '80']] },
-            { id: 7, range: '81-85', lessons: [['81_82', '81/82'], ['83_84', '83/84'], ['85', '85']] },
-            { id: 8, range: '86-90', lessons: [['86_87', '86/87'], ['88_89', '88/89'], ['90', '90']] },
-            { id: 9, range: '91-95', lessons: [['91', '91'], ['92', '92'], ['93', '93'], ['94', '94'], ['95', '95']] },
-            { id: 10, range: '96-100', lessons: [['96', '96'], ['97', '97'], ['98', '98'], ['99', '99'], ['100', '100']] }
-        ];
+        // Grid Generation Logic
+        function refreshLessonGrid() {
+            const grid = document.getElementById('lessonGrid');
+            const lang = document.getElementById('language').value;
+            const grade = document.getElementById('grade_level').value;
+            const type = document.getElementById('material_type').value;
 
-        weeks.forEach(week => {
-            const group = document.createElement('div'); group.className = 'week-group';
-            group.innerHTML = `<div class="week-title">Week ${week.id}</div><div class="lesson-options"></div>`;
-            const optDiv = group.querySelector('.lesson-options');
-            week.lessons.forEach(l => {
-                const label = document.createElement('label'); label.className = 'checkbox-item';
-                label.innerHTML = `<input type="checkbox" name="lessons_covered" value="${l[0]}"> <span>${l[1]}</span>`;
-                optDiv.appendChild(label);
+            // Clear first
+            grid.innerHTML = '';
+
+            // Find existing lessons for this specific combination
+            const existingLessons = new Set();
+            if (allData && allData.length > 0) {
+                allData.forEach(d => {
+                    if (d.Language === lang && d.Grade === grade && d.Material_Type === type) {
+                        const lessons = (d.Lessons_Covered || '').split(/[,;]/);
+                        lessons.forEach(l => {
+                            const clean = l.trim();
+                            if (clean) existingLessons.add(clean);
+                        });
+                    }
+                });
+            }
+
+            const weeks = [
+                { id: 1, range: '51-55', lessons: [['51_52', '51/52'], ['53_54', '53/54'], ['55', '55']] },
+                { id: 2, range: '56-60', lessons: [['56_57', '56/57'], ['58_59', '58/59'], ['60', '60']] },
+                { id: 3, range: '61-65', lessons: [['61_62', '61/62'], ['63_64', '63/64'], ['65', '65']] },
+                { id: 4, range: '66-70', lessons: [['66_67', '66/67'], ['68_69', '68/69'], ['70', '70']] },
+                { id: 5, range: '71-75', lessons: [['71_72', '71/72'], ['73_74', '73/74'], ['75', '75']] },
+                { id: 6, range: '76-80', lessons: [['76_77', '76/77'], ['78_79', '78/79'], ['80', '80']] },
+                { id: 7, range: '81-85', lessons: [['81_82', '81/82'], ['83_84', '83/84'], ['85', '85']] },
+                { id: 8, range: '86-90', lessons: [['86_87', '86/87'], ['88_89', '88/89'], ['90', '90']] },
+                { id: 9, range: '91-95', lessons: [['91', '91'], ['92', '92'], ['93', '93'], ['94', '94'], ['95', '95']] },
+                { id: 10, range: '96-100', lessons: [['96', '96'], ['97', '97'], ['98', '98'], ['99', '99'], ['100', '100']] }
+            ];
+
+            weeks.forEach(week => {
+                const group = document.createElement('div');
+                group.className = 'week-group';
+                group.innerHTML = `<div class="week-title">Week ${week.id}</div><div class="lesson-options"></div>`;
+                const optDiv = group.querySelector('.lesson-options');
+
+                week.lessons.forEach(l => {
+                    const lessonCode = l[0];
+                    const isSubmitted = existingLessons.has(lessonCode);
+
+                    const label = document.createElement('label');
+                    label.className = 'checkbox-item' + (isSubmitted ? ' already-submitted' : '');
+                    label.innerHTML = `<input type="checkbox" name="lessons_covered" value="${lessonCode}"> <span>${l[1]}</span>`;
+                    optDiv.appendChild(label);
+                });
+                grid.appendChild(group);
             });
-            grid.appendChild(group);
-        });
+        }
+
+        // Initialize grid
+        refreshLessonGrid();
+
+        // Listen for form changes to update guidance
+        document.getElementById('language').addEventListener('change', refreshLessonGrid);
+        document.getElementById('grade_level').addEventListener('change', refreshLessonGrid);
+        document.getElementById('material_type').addEventListener('change', refreshLessonGrid);
 
         // File Selection
         const dropZone = document.getElementById('dropZone');
@@ -1134,6 +1188,7 @@
 
                 populateFilters();
                 updateDashboard();
+                refreshLessonGrid();
                 document.getElementById('lastUpdated').textContent = 'Updated: ' + new Date().toLocaleTimeString();
             } catch (e) {
                 console.error(e);
