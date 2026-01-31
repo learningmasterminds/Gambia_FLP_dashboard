@@ -291,19 +291,39 @@
         }
 
         .checkbox-item.already-submitted {
+            display: none;
+        }
+
+        .week-group.show-submitted .checkbox-item.already-submitted {
+            display: flex;
             background: #f0fdf4;
             border-color: #bbf7d0;
             color: #166534;
             position: relative;
         }
 
-        .checkbox-item.already-submitted::after {
+        .week-group.show-submitted .checkbox-item.already-submitted::after {
             content: '✓ Submitted';
             position: absolute;
             right: 8px;
             font-size: 0.6rem;
             color: var(--success);
             font-weight: 700;
+        }
+
+        .edit-toggle-btn {
+            background: #e2e8f0;
+            border: none;
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            cursor: pointer;
+            margin-left: auto;
+            color: var(--text-secondary);
+        }
+
+        .edit-toggle-btn:hover {
+            background: #cbd5e1;
         }
 
         .checkbox-item input {
@@ -1016,6 +1036,14 @@
             }
         });
 
+        // Helper: Calculate Week from lesson string (e.g., '51_52' -> Week 1)
+        function getWeekFromLesson(lessonStr) {
+            const firstLesson = parseInt(lessonStr.split(/[_,]/)[0], 10);
+            if (isNaN(firstLesson) || firstLesson < 51) return '1';
+            // Lessons 51-55 = Week 1, 56-60 = Week 2, etc.
+            return String(Math.ceil((firstLesson - 50) / 5));
+        }
+
         // Grid Generation Logic
         function refreshLessonGrid() {
             const grid = document.getElementById('lessonGrid');
@@ -1058,7 +1086,18 @@
             weeks.forEach(week => {
                 const group = document.createElement('div');
                 group.className = 'week-group';
-                group.innerHTML = `<div class="week-title">Week ${week.id}</div><div class="lesson-options"></div>`;
+
+                // Check if any lesson in this week is submitted
+                const weekHasSubmitted = week.lessons.some(l => existingLessons.has(l[0]));
+
+                // Build week title with optional Edit button
+                let titleHTML = `<div class="week-title" style="display:flex;align-items:center;">Week ${week.id}`;
+                if (weekHasSubmitted) {
+                    titleHTML += `<button type="button" class="edit-toggle-btn" onclick="this.closest('.week-group').classList.toggle('show-submitted')">✏️ Edit</button>`;
+                }
+                titleHTML += `</div><div class="lesson-options"></div>`;
+                group.innerHTML = titleHTML;
+
                 const optDiv = group.querySelector('.lesson-options');
 
                 week.lessons.forEach(l => {
@@ -1129,7 +1168,7 @@
                         materialType: formData.get('material_type'),
                         grade: formData.get('grade_level'),
                         term: formData.get('term'),
-                        week: lessons.split('_')[0] || "1",
+                        week: getWeekFromLesson(lessons),
                         lessonsCovered: lessons,
                         fileName: file.name,
                         fileData: base64File
