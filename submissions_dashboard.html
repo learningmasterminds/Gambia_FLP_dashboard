@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gambia MoBSE FLP | Submissions Dashboard</title>
+    <style>
+        :root {
+            --color-white: #ffffff;
+            --color-cream-50: #fcfcf9;
+            --color-cream-100: #fffdfc;
+            --color-gray-200: #f5f5f5;
+            --color-gray-300: #a7a9a9;
+            --color-slate-500: #626c71;
+            --color-charcoal-700: #1f2121;
+            --color-charcoal-800: #262828;
+            --color-teal-300: #32b8c6;
+            --color-teal-500: #21808d;
+            --color-background: var(--color-cream-50);
+            --color-surface: var(--color-cream-100);
+            --color-text: #13343b;
+            --color-text-secondary: var(--color-slate-500);
+            --color-primary: var(--color-teal-500);
+            --color-border: rgba(94, 82, 64, 0.2);
+            --color-card-border: rgba(94, 82, 64, 0.12);
+            --font-family-base: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            --font-size-base: 14px;
+            --font-size-lg: 16px;
+            --font-size-xl: 18px;
+            --font-size-2xl: 22px;
+            --font-size-3xl: 26px;
+            --font-size-xs: 11px;
+            --font-size-sm: 12px;
+            --space-4: 4px;
+            --space-8: 8px;
+            --space-12: 12px;
+            --space-16: 16px;
+            --space-20: 20px;
+            --space-24: 24px;
+            --space-32: 32px;
+            --radius-base: 6px;
+            --radius-lg: 12px;
+            --radius-full: 9999px;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.04), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --color-background: var(--color-charcoal-700);
+                --color-surface: var(--color-charcoal-800);
+                --color-text: var(--color-gray-200);
+                --color-text-secondary: rgba(167, 169, 169, 0.7);
+                --color-primary: var(--color-teal-300);
+                --color-border: rgba(119, 124, 124, 0.3);
+                --color-card-border: rgba(119, 124, 124, 0.2);
+            }
+        }
+
+        html {
+            font-size: var(--font-size-base);
+            font-family: var(--font-family-base);
+            color: var(--color-text);
+            background-color: var(--color-background);
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--color-background);
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: inherit;
+        }
+
+        .dashboard {
+            min-height: 100vh;
+            padding: var(--space-24);
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: var(--space-32);
+            padding-bottom: var(--space-24);
+            border-bottom: 2px solid var(--color-border);
+        }
+
+        .header h1 {
+            font-size: var(--font-size-3xl);
+            font-weight: 600;
+            margin: 0 0 var(--space-8) 0;
+        }
+
+        .header .subtitle {
+            font-size: var(--font-size-xl);
+            color: var(--color-text-secondary);
+            margin-bottom: var(--space-16);
+        }
+
+        .header-controls {
+            display: flex;
+            gap: var(--space-12);
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .update-badge {
+            background: rgba(94, 82, 64, 0.12);
+            padding: var(--space-8) var(--space-16);
+            border-radius: var(--radius-full);
+            font-size: var(--font-size-sm);
+        }
+
+        .btn {
+            padding: var(--space-8) var(--space-16);
+            border-radius: var(--radius-base);
+            font-size: var(--font-size-base);
+            font-weight: 500;
+            cursor: pointer;
+            border: 1px solid var(--color-border);
+            background: var(--color-surface);
+            color: var(--color-text);
+            transition: all 0.15s ease;
+        }
+
+        .btn:hover {
+            background: rgba(94, 82, 64, 0.12);
+        }
+
+        /* Filter Panel */
+        .filter-panel {
+            background: var(--color-surface);
+            border: 1px solid var(--color-card-border);
+            border-radius: var(--radius-lg);
+            padding: var(--space-24);
+            margin-bottom: var(--space-32);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .filter-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-20);
+        }
+
+        .filter-title {
+            font-size: var(--font-size-xl);
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .filter-controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: var(--space-16);
+            align-items: end;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .filter-label {
+            font-size: var(--font-size-sm);
+            font-weight: 500;
+            color: var(--color-text-secondary);
+            margin-bottom: var(--space-8);
+        }
+
+        .form-control {
+            padding: var(--space-8) var(--space-12);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-base);
+            font-size: var(--font-size-base);
+            background: var(--color-surface);
+            color: var(--color-text);
+        }
+
+        /* Metrics Grid */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: var(--space-20);
+            margin-bottom: var(--space-32);
+        }
+
+        .metric-card {
+            background: var(--color-surface);
+            border: 1px solid var(--color-card-border);
+            border-radius: var(--radius-lg);
+            padding: var(--space-20);
+            box-shadow: var(--shadow-sm);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .metric-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--metric-color, var(--color-primary));
+        }
+
+        .metric-card.total::before {
+            --metric-color: #6366f1;
+        }
+
+        .metric-card.submitted::before {
+            --metric-color: #3b82f6;
+        }
+
+        .metric-card.pending::before {
+            --metric-color: #f59e0b;
+        }
+
+        .metric-card.passed::before {
+            --metric-color: #10b981;
+        }
+
+        .metric-card.failed::before {
+            --metric-color: #dc2626;
+        }
+
+        .metric-card.needs-review::before {
+            --metric-color: #8b5cf6;
+        }
+
+        .metric-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: var(--space-12);
+        }
+
+        .metric-icon {
+            font-size: 1.5rem;
+            margin-right: var(--space-8);
+        }
+
+        .metric-label {
+            font-size: var(--font-size-sm);
+            color: var(--color-text-secondary);
+            font-weight: 500;
+        }
+
+        .metric-value {
+            font-size: 2rem;
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: var(--space-4);
+        }
+
+        .metric-percentage {
+            font-size: var(--font-size-xs);
+            color: var(--color-text-secondary);
+        }
+
+        /* Language Breakdown */
+        .breakdown-panel {
+            background: var(--color-surface);
+            border: 1px solid var(--color-card-border);
+            border-radius: var(--radius-lg);
+            padding: var(--space-24);
+            margin-bottom: var(--space-32);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .breakdown-title {
+            font-size: var(--font-size-xl);
+            font-weight: 600;
+            margin: 0 0 var(--space-20) 0;
+        }
+
+        .breakdown-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--space-16);
+        }
+
+        .language-card {
+            background: rgba(94, 82, 64, 0.04);
+            border-radius: var(--radius-base);
+            padding: var(--space-16);
+        }
+
+        .language-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-12);
+        }
+
+        .language-name {
+            font-weight: 600;
+            font-size: var(--font-size-lg);
+        }
+
+        .language-count {
+            background: var(--color-primary);
+            color: white;
+            padding: var(--space-4) var(--space-12);
+            border-radius: var(--radius-full);
+            font-size: var(--font-size-sm);
+            font-weight: 500;
+        }
+
+        .progress-bar-container {
+            height: 8px;
+            background: rgba(94, 82, 64, 0.1);
+            border-radius: var(--radius-full);
+            overflow: hidden;
+            margin-bottom: var(--space-8);
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #10b981, #34d399);
+            border-radius: var(--radius-full);
+            transition: width 0.3s ease;
+        }
+
+        .language-stats {
+            display: flex;
+            gap: var(--space-16);
+            font-size: var(--font-size-xs);
+            color: var(--color-text-secondary);
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-4);
+        }
+
+        .stat-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .stat-dot.passed {
+            background: #10b981;
+        }
+
+        .stat-dot.pending {
+            background: #f59e0b;
+        }
+
+        .stat-dot.failed {
+            background: #dc2626;
+        }
+
+        /* Submissions Table */
+        .table-container {
+            background: var(--color-surface);
+            border: 1px solid var(--color-card-border);
+            border-radius: var(--radius-lg);
+            padding: var(--space-24);
+            box-shadow: var(--shadow-sm);
+            overflow-x: auto;
+        }
+
+        .table-title {
+            font-size: var(--font-size-xl);
+            font-weight: 600;
+            margin: 0 0 var(--space-20) 0;
+        }
+
+        .submissions-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: var(--font-size-sm);
+        }
+
+        .submissions-table th {
+            background: rgba(94, 82, 64, 0.08);
+            padding: var(--space-12);
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid var(--color-border);
+            white-space: nowrap;
+        }
+
+        .submissions-table td {
+            padding: var(--space-12);
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .submissions-table tr:hover {
+            background: rgba(94, 82, 64, 0.04);
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: var(--space-4) var(--space-12);
+            border-radius: var(--radius-full);
+            font-size: var(--font-size-xs);
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .status-badge.submitted {
+            background: rgba(59, 130, 246, 0.1);
+            color: #3b82f6;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        .status-badge.pending {
+            background: rgba(245, 158, 11, 0.1);
+            color: #f59e0b;
+            border: 1px solid rgba(245, 158, 11, 0.2);
+        }
+
+        .status-badge.passed {
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .status-badge.failed {
+            background: rgba(220, 38, 38, 0.1);
+            color: #dc2626;
+            border: 1px solid rgba(220, 38, 38, 0.2);
+        }
+
+        .status-badge.needs-review {
+            background: rgba(139, 92, 246, 0.1);
+            color: #8b5cf6;
+            border: 1px solid rgba(139, 92, 246, 0.2);
+        }
+
+        .issues-cell {
+            max-width: 250px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-size: var(--font-size-xs);
+            color: var(--color-text-secondary);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: var(--space-32);
+            color: var(--color-text-secondary);
+        }
+
+        .empty-state-icon {
+            font-size: 3rem;
+            margin-bottom: var(--space-16);
+        }
+
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--color-background);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.25s ease;
+        }
+
+        .loading-overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(94, 82, 64, 0.15);
+            border-top-color: var(--color-primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .loading-text {
+            margin-top: var(--space-20);
+            color: var(--color-text-secondary);
+        }
+
+        /* Heatmap Styles */
+        .heatmap-grid {
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            gap: 12px;
+            overflow-x: auto;
+            padding: 8px 0;
+        }
+
+        .heatmap-row {
+            display: contents;
+        }
+
+        .heatmap-label {
+            font-size: var(--font-size-xs);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            padding: 8px;
+            background: rgba(0, 0, 0, 0.03);
+            border-radius: 4px;
+        }
+
+        .heatmap-cells {
+            display: grid;
+            grid-template-columns: repeat(50, minmax(18px, 1fr));
+            gap: 2px;
+            align-items: center;
+        }
+
+        .heatmap-cell {
+            aspect-ratio: 1;
+            background: #eee;
+            border-radius: 2px;
+            font-size: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: transparent;
+            cursor: help;
+        }
+
+        .heatmap-cell.covered {
+            background: var(--color-primary);
+            color: white;
+        }
+
+        .heatmap-cell.illustrations {
+            background: var(--warning);
+        }
+
+        .heatmap-legend {
+            display: flex;
+            gap: 16px;
+            margin-top: 16px;
+            font-size: var(--font-size-xs);
+            color: var(--color-text-secondary);
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .legend-box {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard {
+                padding: var(--space-16);
+            }
+
+            .metrics-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .filter-controls {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: var(--font-size-2xl);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">Loading submissions data...</div>
+    </div>
+
+    <div class="dashboard">
+        <div class="container">
+            <header class="header">
+                <h1>The Gambia, Ministry of Basic and Secondary Education</h1>
+                <div class="subtitle">Foundational Learning Project (FLP) | Submissions Dashboard</div>
+                <div class="header-controls">
+                    <div class="update-badge" id="lastUpdated">Last updated: Loading...</div>
+                    <button class="btn" id="refreshBtn">🔄 Refresh</button>
+                    <a href="index.html" class="btn"
+                        style="background: var(--color-primary); color: white; border: none; text-decoration: none; padding: var(--space-8) var(--space-16); border-radius: var(--radius-base); font-size: var(--font-size-base); font-weight: 500;">
+                        📤 Submit New Material
+                    </a>
+                </div>
+            </header>
+
+            <section class="filter-panel">
+                <div class="filter-header">
+                    <h3 class="filter-title">🔍 Filter Submissions</h3>
+                    <button class="btn" id="resetFilters">Reset</button>
+                </div>
+                <div class="filter-controls">
+                    <div class="filter-group">
+                        <label class="filter-label">🌍 Language</label>
+                        <select class="form-control" id="languageFilter">
+                            <option value="all">All Languages</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label">📖 Material Type</label>
+                        <select class="form-control" id="materialTypeFilter">
+                            <option value="all">All Types</option>
+                            <option value="Teacher Guide">Teacher Guide</option>
+                            <option value="Pupils Book">Pupils Book</option>
+                            <option value="Illustrations">Illustrations</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label">📚 Grade</label>
+                        <select class="form-control" id="gradeFilter">
+                            <option value="all">All Grades</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label">📅 Term</label>
+                        <select class="form-control" id="termFilter">
+                            <option value="all">All Terms</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label">📊 Status</label>
+                        <select class="form-control" id="statusFilter">
+                            <option value="all">All Statuses</option>
+                            <option value="Submitted">Submitted</option>
+                            <option value="Pending">Pending QA</option>
+                            <option value="Passed">QA Passed</option>
+                            <option value="Failed">QA Failed</option>
+                            <option value="Needs_Review">Needs Review</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+
+            <section class="metrics-grid" id="metricsGrid">
+                <div class="metric-card total">
+                    <div class="metric-header"><span class="metric-icon">📊</span><span class="metric-label">Total
+                            Submissions</span></div>
+                    <div class="metric-value" id="totalCount">0</div>
+                </div>
+                <div class="metric-card submitted">
+                    <div class="metric-header"><span class="metric-icon">📥</span><span class="metric-label">New
+                            (Submitted)</span></div>
+                    <div class="metric-value" id="submittedCount">0</div>
+                    <div class="metric-percentage" id="submittedPct">0%</div>
+                </div>
+                <div class="metric-card pending">
+                    <div class="metric-header"><span class="metric-icon">⏳</span><span class="metric-label">Pending
+                            QA</span></div>
+                    <div class="metric-value" id="pendingCount">0</div>
+                    <div class="metric-percentage" id="pendingPct">0%</div>
+                </div>
+                <div class="metric-card passed">
+                    <div class="metric-header"><span class="metric-icon">✅</span><span class="metric-label">QA
+                            Passed</span></div>
+                    <div class="metric-value" id="passedCount">0</div>
+                    <div class="metric-percentage" id="passedPct">0%</div>
+                </div>
+                <div class="metric-card failed">
+                    <div class="metric-header"><span class="metric-icon">❌</span><span class="metric-label">QA
+                            Failed</span></div>
+                    <div class="metric-value" id="failedCount">0</div>
+                    <div class="metric-percentage" id="failedPct">0%</div>
+                </div>
+                <div class="metric-card needs-review">
+                    <div class="metric-header"><span class="metric-icon">🔍</span><span class="metric-label">Needs
+                            Review</span></div>
+                    <div class="metric-value" id="needsReviewCount">0</div>
+                    <div class="metric-percentage" id="needsReviewPct">0%</div>
+                </div>
+            </section>
+
+            <section class="breakdown-panel" id="heatmapPanel">
+                <h3 class="breakdown-title">🗺️ Lesson Coverage Matrix (Heatmap)</h3>
+                <p style="font-size: 0.9rem; color: var(--color-text-secondary); margin-bottom: 1.5rem;">
+                    Tracking lesson coverage across Language/Grade/Type dimensions (Lessons 51-100).
+                </p>
+                <div id="heatmapContainer"
+                    style="min-height: 200px; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.02); border-radius: 8px; border: 1px dashed var(--color-border);">
+                    <div style="text-align: center; color: var(--color-text-secondary);">
+                        <span>Initializing Heatmap Data...</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="breakdown-panel">
+                <h3 class="breakdown-title">📊 Progress by Language Group</h3>
+                <div class="breakdown-grid" id="languageBreakdown"></div>
+            </section>
+
+            <section class="table-container">
+                <h3 class="table-title">📋 Submission Details</h3>
+                <div id="tableContent"></div>
+            </section>
+        </div>
+    </div>
+
+    <script>
+        // ========================================
+        // CONFIGURATION
+        // ========================================
+        // TODO: Replace with your published sheet URL
+        const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTADigssvh4UCjCLyZ4SEAqQWJlWUqlrYk9AOGUB8a2Qop6Yglvn1IGj9rOArZoSWet3P5BV0KU5w4X/pub?gid=1041792494&single=true&output=csv";
+        const REFRESH_INTERVAL = 5 * 60 * 1000; // 5 minutes
+
+        // ========================================
+        // STATE
+        // ========================================
+        let allData = [];
+        let filteredData = [];
+        let lastUpdateTime = null;
+        let currentFilters = {
+            language: 'all',
+            materialType: 'all',
+            grade: 'all',
+            term: 'all',
+            status: 'all'
+        };
+
+        // ========================================
+        // INITIALIZATION
+        // ========================================
+        document.addEventListener('DOMContentLoaded', async function () {
+            initEventListeners();
+            await loadData();
+            setTimeout(() => {
+                document.getElementById('loadingOverlay').classList.add('hidden');
+            }, 500);
+            setInterval(() => loadData(true), REFRESH_INTERVAL);
+        });
+
+        function initEventListeners() {
+            document.getElementById('languageFilter').addEventListener('change', handleFilterChange);
+            document.getElementById('materialTypeFilter').addEventListener('change', handleFilterChange);
+            document.getElementById('gradeFilter').addEventListener('change', handleFilterChange);
+            document.getElementById('termFilter').addEventListener('change', handleFilterChange);
+            document.getElementById('statusFilter').addEventListener('change', handleFilterChange);
+            document.getElementById('resetFilters').addEventListener('click', resetFilters);
+            document.getElementById('refreshBtn').addEventListener('click', () => loadData());
+        }
+
+        // ========================================
+        // DATA LOADING
+        // ========================================
+        async function loadData(silent = false) {
+            try {
+                if (!silent) {
+                    document.getElementById('lastUpdated').textContent = 'Loading...';
+                }
+
+                const response = await fetch(SHEET_CSV_URL + '&_ts=' + Date.now());
+                if (!response.ok) throw new Error('Failed to fetch data');
+
+                const csvText = await response.text();
+                const data = parseCSV(csvText);
+
+                if (data && data.length > 0) {
+                    allData = data;
+                    filteredData = [...allData];
+                    lastUpdateTime = new Date();
+
+                    populateFilters();
+                    updateDashboard();
+                    updateLastUpdated();
+
+                    console.log('✅ Loaded ' + data.length + ' submissions');
+                }
+            } catch (error) {
+                console.error('❌ Error loading data:', error);
+                if (!silent) {
+                    document.getElementById('lastUpdated').textContent = 'Error loading data';
+                }
+            }
+        }
+
+        function parseCSV(csvText) {
+            const lines = csvText.trim().split('\n');
+            if (lines.length < 2) return [];
+
+            const headers = parseCSVRow(lines[0]);
+            const rows = [];
+
+            for (let i = 1; i < lines.length; i++) {
+                const row = parseCSVRow(lines[i]);
+                if (row.length >= headers.length && row[0]) {
+                    const obj = {};
+                    headers.forEach((h, idx) => {
+                        obj[h.trim()] = (row[idx] || '').trim();
+                    });
+
+                    // Only add if has meaningful data
+                    if (obj.Language || obj.File_ID) {
+                        rows.push(obj);
+                    }
+                }
+            }
+
+            return rows;
+        }
+
+        function parseCSVRow(row) {
+            const result = [];
+            let current = '';
+            let inQuotes = false;
+
+            for (let i = 0; i < row.length; i++) {
+                const char = row[i];
+                if (char === '"') {
+                    inQuotes = !inQuotes;
+                } else if (char === ',' && !inQuotes) {
+                    result.push(current.trim());
+                    current = '';
+                } else {
+                    current += char;
+                }
+            }
+            result.push(current.trim());
+            return result;
+        }
+
+        // ========================================
+        // STATUS DETECTION
+        // ========================================
+        function getStatus(row) {
+            const qaStatus = (row.QA_Status || '').trim();
+            if (!qaStatus || qaStatus === '') return 'Submitted';
+            if (qaStatus === 'Passed') return 'Passed';
+            if (qaStatus === 'Failed') return 'Failed';
+            if (qaStatus === 'Needs_Review') return 'Needs_Review';
+            if (qaStatus === 'Pending') return 'Pending';
+            return 'Submitted';
+        }
+
+        function getStatusClass(status) {
+            const map = {
+                'Submitted': 'submitted',
+                'Pending': 'pending',
+                'Passed': 'passed',
+                'Failed': 'failed',
+                'Needs_Review': 'needs-review'
+            };
+            return map[status] || 'submitted';
+        }
+
+        function getStatusLabel(status) {
+            const map = {
+                'Submitted': '📥 Submitted',
+                'Pending': '⏳ Pending QA',
+                'Passed': '✅ QA Passed',
+                'Failed': '❌ QA Failed',
+                'Needs_Review': '🔍 Needs Review'
+            };
+            return map[status] || status;
+        }
+
+        // ========================================
+        // FILTERS
+        // ========================================
+        function populateFilters() {
+            const languages = [...new Set(allData.map(r => r.Language).filter(Boolean))].sort();
+            const grades = [...new Set(allData.map(r => r.Grade).filter(Boolean))].sort();
+            const terms = [...new Set(allData.map(r => r.Term).filter(Boolean))].sort();
+
+            updateSelect('languageFilter', languages, currentFilters.language);
+            updateSelect('gradeFilter', grades, currentFilters.grade);
+            updateSelect('termFilter', terms, currentFilters.term);
+        }
+
+        function updateSelect(id, options, currentValue) {
+            const select = document.getElementById(id);
+            const firstOption = select.options[0];
+            select.innerHTML = '';
+            select.appendChild(firstOption);
+
+            options.forEach(opt => {
+                const option = document.createElement('option');
+                option.value = opt;
+                option.textContent = opt;
+                select.appendChild(option);
+            });
+
+            select.value = currentValue;
+        }
+
+        function handleFilterChange() {
+            currentFilters.language = document.getElementById('languageFilter').value;
+            currentFilters.materialType = document.getElementById('materialTypeFilter').value;
+            currentFilters.grade = document.getElementById('gradeFilter').value;
+            currentFilters.term = document.getElementById('termFilter').value;
+            currentFilters.status = document.getElementById('statusFilter').value;
+
+            applyFilters();
+            updateDashboard();
+        }
+
+        function applyFilters() {
+            filteredData = allData.filter(row => {
+                const status = getStatus(row);
+                const langMatch = currentFilters.language === 'all' || row.Language === currentFilters.language;
+                const typeMatch = currentFilters.materialType === 'all' || row.Material_Type === currentFilters.materialType;
+                const gradeMatch = currentFilters.grade === 'all' || row.Grade === currentFilters.grade;
+                const termMatch = currentFilters.term === 'all' || row.Term === currentFilters.term;
+                const statusMatch = currentFilters.status === 'all' || status === currentFilters.status;
+
+                return langMatch && typeMatch && gradeMatch && termMatch && statusMatch;
+            });
+        }
+
+        function resetFilters() {
+            document.getElementById('languageFilter').value = 'all';
+            document.getElementById('materialTypeFilter').value = 'all';
+            document.getElementById('gradeFilter').value = 'all';
+            document.getElementById('termFilter').value = 'all';
+            document.getElementById('statusFilter').value = 'all';
+
+            currentFilters = { language: 'all', materialType: 'all', grade: 'all', term: 'all', status: 'all' };
+            filteredData = [...allData];
+            updateDashboard();
+        }
+
+        // ========================================
+        // DASHBOARD UPDATE
+        // ========================================
+        function updateDashboard() {
+            updateMetrics();
+            updateLanguageBreakdown();
+            updateHeatmap();
+            updateTable();
+        }
+
+        function updateMetrics() {
+            const total = filteredData.length;
+            const submitted = filteredData.filter(r => getStatus(r) === 'Submitted').length;
+            const pending = filteredData.filter(r => getStatus(r) === 'Pending').length;
+            const passed = filteredData.filter(r => getStatus(r) === 'Passed').length;
+            const failed = filteredData.filter(r => getStatus(r) === 'Failed').length;
+            const needsReview = filteredData.filter(r => getStatus(r) === 'Needs_Review').length;
+
+            document.getElementById('totalCount').textContent = total;
+            document.getElementById('submittedCount').textContent = submitted;
+            document.getElementById('pendingCount').textContent = pending;
+            document.getElementById('passedCount').textContent = passed;
+            document.getElementById('failedCount').textContent = failed;
+            document.getElementById('needsReviewCount').textContent = needsReview;
+
+            const pct = n => total > 0 ? ((n / total) * 100).toFixed(0) + '%' : '0%';
+            document.getElementById('submittedPct').textContent = pct(submitted);
+            document.getElementById('pendingPct').textContent = pct(pending);
+            document.getElementById('passedPct').textContent = pct(passed);
+            document.getElementById('failedPct').textContent = pct(failed);
+            document.getElementById('needsReviewPct').textContent = pct(needsReview);
+        }
+
+        function updateLanguageBreakdown() {
+            const container = document.getElementById('languageBreakdown');
+            const languages = [...new Set(allData.map(r => r.Language).filter(Boolean))].sort();
+
+            if (languages.length === 0) {
+                container.innerHTML = '<div class="empty-state"><p>No language data available</p></div>';
+                return;
+            }
+
+            let html = '';
+            languages.forEach(lang => {
+                const langData = filteredData.filter(r => r.Language === lang);
+                const total = langData.length;
+                const passed = langData.filter(r => getStatus(r) === 'Passed').length;
+                const pending = langData.filter(r => ['Submitted', 'Pending'].includes(getStatus(r))).length;
+                const failed = langData.filter(r => ['Failed', 'Needs_Review'].includes(getStatus(r))).length;
+                const passRate = total > 0 ? (passed / total * 100) : 0;
+
+                html += `
+                    <div class="language-card">
+                        <div class="language-header">
+                            <span class="language-name">${lang} Group</span>
+                            <span class="language-count">${total}</span>
+                        </div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" style="width: ${passRate}%"></div>
+                        </div>
+                        <div class="language-stats">
+                            <span class="stat-item"><span class="stat-dot passed"></span>${passed} passed</span>
+                            <span class="stat-item"><span class="stat-dot pending"></span>${pending} pending</span>
+                            <span class="stat-item"><span class="stat-dot failed"></span>${failed} issues</span>
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        function updateHeatmap() {
+            const container = document.getElementById('heatmapContainer');
+            const data = filteredData;
+
+            if (data.length === 0) {
+                container.innerHTML = '<div style="text-align: center; color: var(--color-text-secondary);">No data for heatmap.</div>';
+                return;
+            }
+
+            // Group by Language + Grade + Type
+            const groups = {};
+            data.forEach(row => {
+                const key = `${row.Language} - ${row.Grade} (${row.Material_Type})`;
+                if (!groups[key]) groups[key] = new Set();
+
+                // Parse Lessons_Covered
+                const lessons = (row.Lessons_Covered || '').split(/[,;]/);
+                lessons.forEach(l => {
+                    const clean = l.trim();
+                    if (clean) groups[key].add(clean);
+                });
+            });
+
+            const keys = Object.keys(groups).sort();
+            let html = '<div class="heatmap-grid">';
+
+            keys.forEach(key => {
+                const isIllustrations = key.toLowerCase().includes('illustrations');
+                html += `<div class="heatmap-row"><div class="heatmap-label">${key}</div><div class="heatmap-cells">`;
+                for (let i = 51; i <= 100; i++) {
+                    const lessonKey = String(i);
+                    let isCovered = groups[key].has(lessonKey);
+                    if (!isCovered) {
+                        for (let val of groups[key]) {
+                            if (val.includes('_') && val.split('_').includes(lessonKey)) {
+                                isCovered = true;
+                                break;
+                            }
+                        }
+                    }
+                    let className = 'heatmap-cell';
+                    if (isCovered) className += ' covered';
+                    if (isIllustrations) className += ' illustrations';
+
+                    html += `<div class="${className}" title="Lesson ${i}">${i}</div>`;
+                }
+                html += '</div></div>';
+            });
+
+            html += '</div>';
+            html += `
+                <div class="heatmap-legend">
+                    <div class="legend-item"><div class="legend-box" style="background: var(--color-primary)"></div> Covered</div>
+                    <div class="legend-item"><div class="legend-box" style="background: #eee"></div> Not Covered</div>
+                    <div class="legend-item"><div class="legend-box" style="background: var(--warning)"></div> Illustrations (Placeholder)</div>
+                </div>
+            `;
+
+            container.innerHTML = html;
+        }
+
+        function updateTable() {
+            const container = document.getElementById('tableContent');
+
+            if (filteredData.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📭</div>
+                        <p>No submissions match the current filters.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Sort by timestamp descending (newest first)
+            const sorted = [...filteredData].sort((a, b) => {
+                return new Date(b.Timestamp || 0) - new Date(a.Timestamp || 0);
+            });
+
+            let html = `
+                <table class="submissions-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Language</th>
+                            <th>Type</th>
+                            <th>Grade</th>
+                            <th>Term</th>
+                            <th>Week</th>
+                            <th>Lessons</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            sorted.forEach(row => {
+                const status = getStatus(row);
+                const statusClass = getStatusClass(status);
+                const statusLabel = getStatusLabel(status);
+                const date = row.Timestamp ? new Date(row.Timestamp).toLocaleDateString() : '-';
+                const lessons = (row.Lessons_Covered || '').replace(/_/g, '/');
+
+                html += `
+                    <tr>
+                        <td>${date}</td>
+                        <td><strong>${row.Language || '-'}</strong></td>
+                        <td>${row.Material_Type || '-'}</td>
+                        <td>${row.Grade || '-'}</td>
+                        <td>${row.Term || '-'}</td>
+                        <td>${row.Week || '-'}</td>
+                        <td>${lessons || '-'}</td>
+                        <td><span class="status-badge ${statusClass}">${statusLabel}</span></td>
+                    </tr>
+                `;
+            });
+
+            html += '</tbody></table>';
+            container.innerHTML = html;
+        }
+
+        function updateLastUpdated() {
+            if (!lastUpdateTime) {
+                document.getElementById('lastUpdated').textContent = 'Never updated';
+                return;
+            }
+
+            const seconds = Math.floor((new Date() - lastUpdateTime) / 1000);
+            let text;
+            if (seconds < 10) text = 'Just now';
+            else if (seconds < 60) text = seconds + 's ago';
+            else text = Math.floor(seconds / 60) + 'm ago';
+
+            document.getElementById('lastUpdated').textContent = 'Updated: ' + text;
+        }
+
+        setInterval(updateLastUpdated, 30000);
+    </script>
+</body>
+
+</html>
