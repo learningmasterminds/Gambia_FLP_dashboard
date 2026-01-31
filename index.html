@@ -1034,18 +1034,68 @@
             }
         };
 
-        // Submit
+        const SCRIPT_URL = ""; // PASTE YOUR APPS SCRIPT WEB APP URL HERE
         const successModal = document.getElementById('successModal');
-        document.getElementById('submissionForm').onsubmit = (e) => {
+        const submissionForm = document.getElementById('submissionForm');
+
+        submissionForm.onsubmit = async (e) => {
             e.preventDefault();
             const btn = document.getElementById('submitBtn');
-            btn.disabled = true; btn.textContent = 'Submitting...';
+            const originalText = btn.textContent;
 
-            // In a real scenario, this would be an actual fetch to Apps Script
-            setTimeout(() => {
-                successModal.style.display = 'flex';
-                btn.disabled = false; btn.textContent = 'Submit Material';
-            }, 1000);
+            if (!SCRIPT_URL) {
+                alert("Backend not connected. Please contact administrator (Script URL missing).");
+                return;
+            }
+
+            btn.disabled = true;
+            btn.textContent = '📤 Uploading...';
+
+            try {
+                const formData = new FormData(submissionForm);
+                const fileInput = document.getElementById('file_upload');
+                const file = fileInput.files[0];
+
+                const lessons = Array.from(document.querySelectorAll('input[name="lessons_covered"]:checked'))
+                    .map(el => el.value)
+                    .join(', ');
+
+                const reader = new FileReader();
+                reader.onload = async () => {
+                    const base64File = reader.result;
+                    const payload = {
+                        writerName: formData.get('writer_name'),
+                        submitterEmail: formData.get('submitter_email'),
+                        language: formData.get('language'),
+                        materialType: formData.get('material_type'),
+                        grade: formData.get('grade_level'),
+                        term: formData.get('term'),
+                        week: lessons.split('_')[0] || "1",
+                        lessonsCovered: lessons,
+                        fileName: file.name,
+                        fileData: base64File
+                    };
+
+                    try {
+                        await fetch(SCRIPT_URL, {
+                            method: 'POST',
+                            mode: 'no-cors',
+                            body: JSON.stringify(payload)
+                        });
+                        successModal.style.display = 'flex';
+                    } catch (err) {
+                        alert("Submission failed. Please check connection.");
+                    } finally {
+                        btn.disabled = false;
+                        btn.textContent = originalText;
+                    }
+                };
+                reader.readAsDataURL(file);
+            } catch (err) {
+                alert("Error: " + err.message);
+                btn.disabled = false;
+                btn.textContent = originalText;
+            }
         };
 
         document.getElementById('successBtnAnother').onclick = () => {
