@@ -1031,7 +1031,9 @@
             if (allData && allData.length > 0) {
                 allData.forEach(d => {
                     if (d.Language === lang && d.Grade === grade && d.Material_Type === type) {
-                        const lessons = (d.Lessons_Covered || '').split(/[,;]/);
+                        // Handle both column naming conventions
+                        const lessonData = d.Lessons_Covered || d['Lessons Covered'] || '';
+                        const lessons = lessonData.split(/[,;]/);
                         lessons.forEach(l => {
                             const clean = l.trim();
                             if (clean) existingLessons.add(clean);
