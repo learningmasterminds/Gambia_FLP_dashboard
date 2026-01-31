@@ -1248,6 +1248,19 @@
             document.getElementById('fileInfo').style.display = 'none';
             successModal.style.display = 'none';
             typeSelect.disabled = true;
+
+            // Reset wizard state
+            document.getElementById('continueSection').style.display = 'block';
+            document.getElementById('lessonsAndUploadSection').style.display = 'none';
+            continueBtn.disabled = true;
+            continueBtn.style.background = '#64748b';
+            continueHint.style.display = 'block';
+
+            // Reload data to get fresh submission info
+            loadData();
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         };
 
         document.getElementById('successBtnLogout').onclick = () => {
