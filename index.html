@@ -10,9 +10,7 @@
         rel="stylesheet">
     <style>
         :root {
-            /* Branding Colors */
             --primary: #1e3a8a;
-            /* MoBSE Blue */
             --primary-light: #3b82f6;
             --accent: #0ea5e9;
             --success: #10b981;
@@ -25,8 +23,6 @@
             --border: #e2e8f0;
             --radius: 12px;
             --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-
-            /* Dashboard Specific (Legacy var mapping) */
             --color-primary: var(--primary);
             --color-text: var(--text);
             --color-text-secondary: var(--text-secondary);
@@ -63,7 +59,6 @@
             line-height: 1.6;
         }
 
-        /* Layout & Navigation */
         .header {
             background: linear-gradient(135deg, var(--primary), #1e40af);
             color: white;
@@ -132,7 +127,6 @@
             display: block;
         }
 
-        /* Form Styles (From previous implementation) */
         .form-section {
             background: var(--surface);
             border-radius: var(--radius);
@@ -165,7 +159,6 @@
             font-size: 0.95rem;
         }
 
-        /* Auth Screen Styles */
         .auth-container {
             max-width: 450px;
             margin: 4rem auto;
@@ -229,7 +222,6 @@
             border: 1px solid #fee2e2;
         }
 
-        /* Form Visibility */
         #formWrapper {
             display: none;
         }
@@ -311,6 +303,16 @@
             font-weight: 700;
         }
 
+        .week-submission-badge {
+            background: #dcfce7;
+            color: #166534;
+            font-size: 0.7rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            margin-left: 0.5rem;
+            font-weight: 500;
+        }
+
         .edit-toggle-btn {
             background: #e2e8f0;
             border: none;
@@ -324,6 +326,11 @@
 
         .edit-toggle-btn:hover {
             background: #cbd5e1;
+        }
+
+        .edit-toggle-btn.active {
+            background: #fef3c7;
+            color: #92400e;
         }
 
         .checkbox-item input {
@@ -341,7 +348,6 @@
             background: #fafafa;
         }
 
-        /* Success Modal Styles */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -433,7 +439,6 @@
             margin-top: 1rem;
         }
 
-        /* Dashboard Styles (Consolidated from submissions_dashboard.html) */
         .dashboard-header {
             display: flex;
             justify-content: space-between;
@@ -520,7 +525,6 @@
             background: var(--success);
         }
 
-        /* Heatmap Styles */
         .heatmap-grid {
             display: grid;
             grid-template-columns: 150px 1fr;
@@ -571,7 +575,6 @@
             background: var(--warning);
         }
 
-        /* Table Styles */
         .table-container {
             background: white;
             border-radius: 12px;
@@ -644,7 +647,6 @@
 </head>
 
 <body>
-
     <header class="header">
         <div class="container" style="margin:0 auto; padding: 0 1rem;">
             <h1>Ministry of Basic & Secondary Education</h1>
@@ -658,15 +660,11 @@
     </nav>
 
     <div class="container">
-        <!-- TAB 1: SUBMISSION FORM -->
         <div id="tab-content-submit" class="tab-content active">
-
-            <!-- Verification Screen -->
             <div id="authScreen" class="auth-container">
                 <div class="auth-icon">🔒</div>
                 <h2 class="auth-title">Writer Verification</h2>
                 <p class="auth-subtitle">Please enter your registered email and access code to continue.</p>
-
                 <form id="authForm" class="auth-form">
                     <div class="field-group">
                         <label for="auth_email">Official Email</label>
@@ -754,7 +752,6 @@
                         </div>
                     </section>
 
-                    <!-- Continue Button -->
                     <div id="continueSection" style="text-align: center; margin: 1.5rem 0;">
                         <button type="button" id="continueBtn" class="submit-btn"
                             style="max-width: 300px; background: #64748b;" disabled>
@@ -765,13 +762,19 @@
                             all fields above first</p>
                     </div>
 
-                    <!-- Hidden until Continue is clicked -->
                     <div id="lessonsAndUploadSection" style="display: none;">
                         <section class="form-section">
-                            <h2 class="section-title">📊 Lesson Coverage (Lessons 51-100)</h2>
-                            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">Select all
-                                lessons
-                                covered in this submission.</p>
+                            <h2 class="section-title">📊 Lesson Coverage <span id="lessonRangeLabel">(Lessons
+                                    51-100)</span></h2>
+                            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">
+                                Select all lessons covered in this submission.
+                                <strong>Already-submitted lessons are hidden by default.</strong>
+                                Click "✏️ Edit" on a week to reveal and modify previous submissions if needed.
+                            </p>
+                            <div id="submissionSummary"
+                                style="display: none; margin-bottom: 1rem; padding: 0.75rem; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; font-size: 0.85rem; color: #166534;">
+                                <strong>📋 Previous Submissions Found:</strong> <span id="summaryText"></span>
+                            </div>
                             <div class="lesson-grid-container" id="lessonGrid"></div>
                         </section>
 
@@ -781,15 +784,13 @@
                                 <div style="font-size: 2rem; margin-bottom: 1rem;">📄</div>
                                 <p><b>Click to upload</b> or drag and drop</p>
                                 <p style="font-size: 0.8rem; color: var(--text-secondary);">Word (.docx) or PDF (Max
-                                    25MB)
-                                </p>
+                                    25MB)</p>
                                 <input type="file" id="file_upload" name="file_upload" accept=".doc,.docx,.pdf"
                                     style="display: none;" required>
                             </div>
                             <div id="fileInfo"
                                 style="margin-top: 1rem; display: none; color: var(--success); font-weight: 600;">
-                                Selected:
-                                <span id="fileName"></span>
+                                Selected: <span id="fileName"></span>
                             </div>
                             <div class="field-group" style="margin-top: 1.5rem;">
                                 <label for="additional_notes">Additional Notes</label>
@@ -798,12 +799,11 @@
                         </section>
 
                         <button type="submit" class="submit-btn" id="submitBtn">Submit Material</button>
-                    </div> <!-- End of lessonsAndUploadSection -->
+                    </div>
                 </form>
             </div>
         </div>
 
-        <!-- TAB 2: DASHBOARD -->
         <div id="tab-content-dashboard" class="tab-content">
             <div class="dashboard-header">
                 <h2 style="font-size: 1.5rem; color: var(--primary);">Real-time Progress Tracking</h2>
@@ -912,7 +912,6 @@
         </div>
     </div>
 
-    <!-- Success Modal -->
     <div id="successModal" class="modal-overlay">
         <div class="modal-content">
             <div class="modal-icon">✅</div>
@@ -932,7 +931,6 @@
     </footer>
 
     <script>
-        // Global Data
         let allData = [];
         let filteredData = [];
 
@@ -975,16 +973,12 @@
             e.preventDefault();
             const email = document.getElementById('auth_email').value.trim().toLowerCase();
             const code = document.getElementById('auth_code').value.trim().toUpperCase();
-
             if (ACCESS_KEYS[email] === code) {
-                // Success
                 authScreen.style.display = 'none';
                 formWrapper.style.display = 'block';
                 submitterEmailField.value = email;
                 submitterEmailField.readOnly = true;
                 authError.style.display = 'none';
-
-                // Save session (optional for current page reload)
                 sessionStorage.setItem('v_verified', 'true');
                 sessionStorage.setItem('v_email', email);
             } else {
@@ -994,34 +988,21 @@
 
         logoutBtn.onclick = forceLogout;
 
-        // ========================================
-        // TAB NAVIGATION
-        // ========================================
         const tabs = document.querySelectorAll('.nav-tab');
         const contents = document.querySelectorAll('.tab-content');
-
         tabs.forEach(tab => {
             tab.addEventListener('click', (e) => {
                 e.preventDefault();
                 const targetId = tab.getAttribute('href').substring(1);
-
                 tabs.forEach(t => t.classList.remove('active'));
                 contents.forEach(c => c.classList.remove('active'));
-
                 tab.classList.add('active');
                 document.getElementById('tab-content-' + targetId).classList.add('active');
-
-                if (targetId === 'dashboard') {
-                    loadData(); // Refresh data when viewing dashboard
-                }
+                if (targetId === 'dashboard') loadData();
             });
         });
 
-        // ========================================
-        // FORM LOGIC
-        // ========================================
         document.getElementById('submission_date').valueAsDate = new Date();
-
         const gradeSelect = document.getElementById('grade_level');
         const typeSelect = document.getElementById('material_type');
 
@@ -1029,15 +1010,11 @@
             const grade = gradeSelect.value;
             typeSelect.disabled = false;
             typeSelect.innerHTML = '';
-
             if (grade === 'Grade_1') {
-                const options = [
-                    { value: 'Pupil Book Story Planner', label: 'Pupil Book Story Planner' },
-                    { value: 'Pupil Book', label: 'Pupil Book' },
-                    { value: 'Teacher Guide', label: 'Teacher Guide' },
-                    { value: 'Illustrations', label: 'Illustrations' }
-                ];
-                options.forEach(opt => {
+                [{ value: 'Pupil Book Story Planner', label: 'Pupil Book Story Planner' },
+                { value: 'Pupil Book', label: 'Pupil Book' },
+                { value: 'Teacher Guide', label: 'Teacher Guide' },
+                { value: 'Illustrations', label: 'Illustrations' }].forEach(opt => {
                     const el = document.createElement('option');
                     el.value = opt.value; el.textContent = opt.label;
                     typeSelect.appendChild(el);
@@ -1053,7 +1030,6 @@
             checkContinueReady();
         });
 
-        // Continue Button Logic
         const continueBtn = document.getElementById('continueBtn');
         const continueHint = document.getElementById('continueHint');
         const lessonsSection = document.getElementById('lessonsAndUploadSection');
@@ -1063,14 +1039,12 @@
             const grade = document.getElementById('grade_level').value;
             const type = document.getElementById('material_type').value;
             const term = document.getElementById('term').value;
-
             const ready = lang && grade && type && term;
             continueBtn.disabled = !ready;
             continueBtn.style.background = ready ? 'var(--primary)' : '#64748b';
             continueHint.style.display = ready ? 'none' : 'block';
         }
 
-        // Listen for all material ID fields
         ['language', 'grade_level', 'material_type', 'term'].forEach(id => {
             document.getElementById(id).addEventListener('change', checkContinueReady);
         });
@@ -1079,91 +1053,190 @@
             refreshLessonGrid();
             lessonsSection.style.display = 'block';
             document.getElementById('continueSection').style.display = 'none';
-            // Scroll to lessons
             lessonsSection.scrollIntoView({ behavior: 'smooth' });
         });
 
-        // Helper: Calculate Week from lesson string (e.g., '51_52' -> Week 1)
         function getWeekFromLesson(lessonStr) {
             const firstLesson = parseInt(lessonStr.split(/[_,]/)[0], 10);
             if (isNaN(firstLesson) || firstLesson < 51) return '1';
-            // Lessons 51-55 = Week 1, 56-60 = Week 2, etc.
             return String(Math.ceil((firstLesson - 50) / 5));
         }
 
-        // Grid Generation Logic
+        function normalizeGrade(grade) {
+            if (!grade) return '';
+            return grade.toString().trim().replace(/[_\s]+/g, ' ').replace(/\s+/g, ' ').trim();
+        }
+
+        function normalizeLessonCode(lessonStr) {
+            if (!lessonStr) return '';
+            const cleaned = lessonStr.toString().trim();
+            if (/^\d+$/.test(cleaned)) return cleaned;
+            const match = cleaned.match(/(\d+)[_\/\-,\s]+(\d+)/);
+            if (match) return `${match[1]}_${match[2]}`;
+            return cleaned;
+        }
+
+        function extractLessonNumbers(lessonCode) {
+            const normalized = normalizeLessonCode(lessonCode);
+            const numbers = normalized.match(/\d+/g);
+            return numbers ? numbers.map(n => parseInt(n, 10)) : [];
+        }
+
+        function isLessonSubmitted(lessonCode, existingLessonsSet) {
+            const normalized = normalizeLessonCode(lessonCode);
+            if (existingLessonsSet.has(normalized)) return true;
+            const lessonNumbers = extractLessonNumbers(normalized);
+            if (lessonNumbers.length === 0) return false;
+            return lessonNumbers.every(num => existingLessonsSet.has(String(num)));
+        }
+
+        function getLessonRangeForTerm(term) {
+            if (term === 'Term_2') return { start: 51, end: 100, label: 'Lessons 51-100' };
+            if (term === 'Term_3') return { start: 101, end: 150, label: 'Lessons 101-150' };
+            return { start: 51, end: 100, label: 'Lessons 51-100' };
+        }
+
+        function generateWeeksForTerm(term) {
+            const weeks = [];
+            if (term === 'Term_2') {
+                weeks.push(
+                    { id: 1, range: '51-55', lessons: [['51_52', '51/52'], ['53_54', '53/54'], ['55', '55']] },
+                    { id: 2, range: '56-60', lessons: [['56_57', '56/57'], ['58_59', '58/59'], ['60', '60']] },
+                    { id: 3, range: '61-65', lessons: [['61_62', '61/62'], ['63_64', '63/64'], ['65', '65']] },
+                    { id: 4, range: '66-70', lessons: [['66_67', '66/67'], ['68_69', '68/69'], ['70', '70']] },
+                    { id: 5, range: '71-75', lessons: [['71_72', '71/72'], ['73_74', '73/74'], ['75', '75']] },
+                    { id: 6, range: '76-80', lessons: [['76_77', '76/77'], ['78_79', '78/79'], ['80', '80']] },
+                    { id: 7, range: '81-85', lessons: [['81_82', '81/82'], ['83_84', '83/84'], ['85', '85']] },
+                    { id: 8, range: '86-90', lessons: [['86_87', '86/87'], ['88_89', '88/89'], ['90', '90']] },
+                    { id: 9, range: '91-95', lessons: [['91', '91'], ['92', '92'], ['93', '93'], ['94', '94'], ['95', '95']] },
+                    { id: 10, range: '96-100', lessons: [['96', '96'], ['97', '97'], ['98', '98'], ['99', '99'], ['100', '100']] }
+                );
+            } else if (term === 'Term_3') {
+                weeks.push(
+                    { id: 1, range: '101-105', lessons: [['101_102', '101/102'], ['103_104', '103/104'], ['105', '105']] },
+                    { id: 2, range: '106-110', lessons: [['106_107', '106/107'], ['108_109', '108/109'], ['110', '110']] },
+                    { id: 3, range: '111-115', lessons: [['111_112', '111/112'], ['113_114', '113/114'], ['115', '115']] },
+                    { id: 4, range: '116-120', lessons: [['116_117', '116/117'], ['118_119', '118/119'], ['120', '120']] },
+                    { id: 5, range: '121-125', lessons: [['121_122', '121/122'], ['123_124', '123/124'], ['125', '125']] },
+                    { id: 6, range: '126-130', lessons: [['126_127', '126/127'], ['128_129', '128/129'], ['130', '130']] },
+                    { id: 7, range: '131-135', lessons: [['131_132', '131/132'], ['133_134', '133/134'], ['135', '135']] },
+                    { id: 8, range: '136-140', lessons: [['136_137', '136/137'], ['138_139', '138/139'], ['140', '140']] },
+                    { id: 9, range: '141-145', lessons: [['141', '141'], ['142', '142'], ['143', '143'], ['144', '144'], ['145', '145']] },
+                    { id: 10, range: '146-150', lessons: [['146', '146'], ['147', '147'], ['148', '148'], ['149', '149'], ['150', '150']] }
+                );
+            }
+            return weeks;
+        }
+
         function refreshLessonGrid() {
             const grid = document.getElementById('lessonGrid');
             const lang = document.getElementById('language').value;
-            const grade = document.getElementById('grade_level').value;
+            const gradeRaw = document.getElementById('grade_level').value;
             const type = document.getElementById('material_type').value;
-
-            // Clear first
+            const term = document.getElementById('term').value;
+            const gradeNormalized = normalizeGrade(gradeRaw);
+            const range = getLessonRangeForTerm(term);
+            document.getElementById('lessonRangeLabel').textContent = `(${range.label})`;
             grid.innerHTML = '';
 
-            // Find existing lessons for this specific combination
             const existingLessons = new Set();
+            const existingLessonCodes = new Set();
+
             if (allData && allData.length > 0) {
                 allData.forEach(d => {
-                    if (d.Language === lang && d.Grade === grade && d.Material_Type === type) {
-                        // Handle both column naming conventions
-                        const lessonData = d.Lessons_Covered || d['Lessons Covered'] || '';
+                    const csvGradeNormalized = normalizeGrade(d.Grade);
+                    if (d.Language === lang && csvGradeNormalized === gradeNormalized && d.Material_Type === type) {
+                        const lessonData = d.Lessons_Covered || d['Lessons Covered'] || d.Lessons || '';
                         const lessons = lessonData.split(/[,;]/);
                         lessons.forEach(l => {
                             const clean = l.trim();
-                            if (clean) existingLessons.add(clean);
+                            if (clean) {
+                                const normalized = normalizeLessonCode(clean);
+                                existingLessonCodes.add(normalized);
+                                const numbers = extractLessonNumbers(clean);
+                                numbers.forEach(num => existingLessons.add(String(num)));
+                            }
                         });
                     }
                 });
             }
 
-            const weeks = [
-                { id: 1, range: '51-55', lessons: [['51_52', '51/52'], ['53_54', '53/54'], ['55', '55']] },
-                { id: 2, range: '56-60', lessons: [['56_57', '56/57'], ['58_59', '58/59'], ['60', '60']] },
-                { id: 3, range: '61-65', lessons: [['61_62', '61/62'], ['63_64', '63/64'], ['65', '65']] },
-                { id: 4, range: '66-70', lessons: [['66_67', '66/67'], ['68_69', '68/69'], ['70', '70']] },
-                { id: 5, range: '71-75', lessons: [['71_72', '71/72'], ['73_74', '73/74'], ['75', '75']] },
-                { id: 6, range: '76-80', lessons: [['76_77', '76/77'], ['78_79', '78/79'], ['80', '80']] },
-                { id: 7, range: '81-85', lessons: [['81_82', '81/82'], ['83_84', '83/84'], ['85', '85']] },
-                { id: 8, range: '86-90', lessons: [['86_87', '86/87'], ['88_89', '88/89'], ['90', '90']] },
-                { id: 9, range: '91-95', lessons: [['91', '91'], ['92', '92'], ['93', '93'], ['94', '94'], ['95', '95']] },
-                { id: 10, range: '96-100', lessons: [['96', '96'], ['97', '97'], ['98', '98'], ['99', '99'], ['100', '100']] }
-            ];
+            console.log('Searching for:', { lang, gradeNormalized, type, term });
+            console.log('Found submitted lessons:', Array.from(existingLessons));
+
+            const summaryDiv = document.getElementById('submissionSummary');
+            const summaryText = document.getElementById('summaryText');
+
+            if (existingLessons.size > 0) {
+                const sortedLessons = Array.from(existingLessons)
+                    .map(n => parseInt(n, 10))
+                    .filter(n => n >= range.start && n <= range.end)
+                    .sort((a, b) => a - b);
+                if (sortedLessons.length > 0) {
+                    summaryText.textContent = `Lessons ${sortedLessons.join(', ')} have been previously submitted for ${lang} ${gradeNormalized} ${type}.`;
+                    summaryDiv.style.display = 'block';
+                } else {
+                    summaryDiv.style.display = 'none';
+                }
+            } else {
+                summaryDiv.style.display = 'none';
+            }
+
+            const weeks = generateWeeksForTerm(term);
 
             weeks.forEach(week => {
                 const group = document.createElement('div');
                 group.className = 'week-group';
 
-                // Check if any lesson in this week is submitted
-                const weekHasSubmitted = week.lessons.some(l => existingLessons.has(l[0]));
+                let submittedInWeek = 0;
+                let totalInWeek = week.lessons.length;
+                week.lessons.forEach(l => { if (isLessonSubmitted(l[0], existingLessons)) submittedInWeek++; });
 
-                // Build week title with optional Edit button
-                let titleHTML = `<div class="week-title" style="display:flex;align-items:center;">Week ${week.id}`;
-                if (weekHasSubmitted) {
-                    titleHTML += `<button type="button" class="edit-toggle-btn" onclick="this.closest('.week-group').classList.toggle('show-submitted')">✏️ Edit</button>`;
+                let titleHTML = `<div class="week-title" style="display:flex;align-items:center;">Week ${week.id} (${week.range})`;
+                if (submittedInWeek > 0) {
+                    titleHTML += `<span class="week-submission-badge">${submittedInWeek}/${totalInWeek} submitted</span>`;
+                    titleHTML += `<button type="button" class="edit-toggle-btn" data-week="${week.id}" onclick="toggleWeekEdit(this)">✏️ Edit</button>`;
                 }
                 titleHTML += `</div><div class="lesson-options"></div>`;
                 group.innerHTML = titleHTML;
 
                 const optDiv = group.querySelector('.lesson-options');
-
                 week.lessons.forEach(l => {
                     const lessonCode = l[0];
-                    const isSubmitted = existingLessons.has(lessonCode);
-
+                    const displayLabel = l[1];
+                    const isSubmitted = isLessonSubmitted(lessonCode, existingLessons);
                     const label = document.createElement('label');
                     label.className = 'checkbox-item' + (isSubmitted ? ' already-submitted' : '');
-                    label.innerHTML = `<input type="checkbox" name="lessons_covered" value="${lessonCode}"> <span>${l[1]}</span>`;
+                    label.innerHTML = `<input type="checkbox" name="lessons_covered" value="${lessonCode}" ${isSubmitted ? 'disabled' : ''}> <span>${displayLabel}</span>`;
                     optDiv.appendChild(label);
                 });
                 grid.appendChild(group);
             });
         }
 
-        // Initialize grid (will be refreshed when Continue is clicked)
+        function toggleWeekEdit(btn) {
+            const weekGroup = btn.closest('.week-group');
+            const isShowing = weekGroup.classList.toggle('show-submitted');
+            if (isShowing) {
+                btn.classList.add('active');
+                btn.textContent = '✓ Done';
+                weekGroup.querySelectorAll('.checkbox-item.already-submitted input').forEach(input => {
+                    input.disabled = false;
+                    input.checked = true;
+                });
+            } else {
+                btn.classList.remove('active');
+                btn.textContent = '✏️ Edit';
+                weekGroup.querySelectorAll('.checkbox-item.already-submitted input').forEach(input => {
+                    input.disabled = true;
+                    input.checked = false;
+                });
+            }
+        }
+
+        window.toggleWeekEdit = toggleWeekEdit;
         refreshLessonGrid();
 
-        // File Selection
         const dropZone = document.getElementById('dropZone');
         const fileInput = document.getElementById('file_upload');
         dropZone.onclick = () => fileInput.click();
@@ -1182,24 +1255,14 @@
             e.preventDefault();
             const btn = document.getElementById('submitBtn');
             const originalText = btn.textContent;
-
-            if (!SCRIPT_URL) {
-                alert("Backend not connected. Please contact administrator (Script URL missing).");
-                return;
-            }
-
+            if (!SCRIPT_URL) { alert("Backend not connected."); return; }
             btn.disabled = true;
             btn.textContent = '📤 Uploading...';
-
             try {
                 const formData = new FormData(submissionForm);
                 const fileInput = document.getElementById('file_upload');
                 const file = fileInput.files[0];
-
-                const lessons = Array.from(document.querySelectorAll('input[name="lessons_covered"]:checked'))
-                    .map(el => el.value)
-                    .join(', ');
-
+                const lessons = Array.from(document.querySelectorAll('input[name="lessons_covered"]:checked')).map(el => el.value).join(', ');
                 const reader = new FileReader();
                 reader.onload = async () => {
                     const base64File = reader.result;
@@ -1215,62 +1278,36 @@
                         fileName: file.name,
                         fileData: base64File
                     };
-
                     try {
-                        await fetch(SCRIPT_URL, {
-                            method: 'POST',
-                            mode: 'no-cors',
-                            body: JSON.stringify(payload)
-                        });
+                        await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
                         successModal.style.display = 'flex';
-                    } catch (err) {
-                        alert("Submission failed. Please check connection.");
-                    } finally {
-                        btn.disabled = false;
-                        btn.textContent = originalText;
-                    }
+                    } catch (err) { alert("Submission failed."); }
+                    finally { btn.disabled = false; btn.textContent = originalText; }
                 };
                 reader.readAsDataURL(file);
-            } catch (err) {
-                alert("Error: " + err.message);
-                btn.disabled = false;
-                btn.textContent = originalText;
-            }
+            } catch (err) { alert("Error: " + err.message); btn.disabled = false; btn.textContent = originalText; }
         };
 
         document.getElementById('successBtnAnother').onclick = () => {
             const savedName = document.getElementById('writer_name').value;
             const savedEmail = document.getElementById('submitter_email').value;
-
             document.getElementById('submissionForm').reset();
             document.getElementById('writer_name').value = savedName;
             document.getElementById('submitter_email').value = savedEmail;
             document.getElementById('fileInfo').style.display = 'none';
             successModal.style.display = 'none';
             typeSelect.disabled = true;
-
-            // Reset wizard state
             document.getElementById('continueSection').style.display = 'block';
             document.getElementById('lessonsAndUploadSection').style.display = 'none';
             continueBtn.disabled = true;
             continueBtn.style.background = '#64748b';
             continueHint.style.display = 'block';
-
-            // Reload data to get fresh submission info
             loadData();
-
-            // Scroll to top
             window.scrollTo({ top: 0, behavior: 'smooth' });
         };
 
-        document.getElementById('successBtnLogout').onclick = () => {
-            successModal.style.display = 'none';
-            forceLogout();
-        };
+        document.getElementById('successBtnLogout').onclick = () => { successModal.style.display = 'none'; forceLogout(); };
 
-        // ========================================
-        // DASHBOARD LOGIC
-        // ========================================
         const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTADigssvh4UCjCLyZ4SEAqQWJlWUqlrYk9AOGUB8a2Qop6Yglvn1IGj9rOArZoSWet3P5BV0KU5w4X/pub?gid=1041792494&single=true&output=csv";
 
         async function loadData() {
@@ -1280,7 +1317,6 @@
                 const csv = await res.text();
                 allData = parseCSV(csv);
                 filteredData = [...allData];
-
                 populateFilters();
                 updateDashboard();
                 refreshLessonGrid();
@@ -1305,30 +1341,21 @@
         function populateFilters() {
             const langs = [...new Set(allData.map(d => d.Language))].sort();
             const grades = [...new Set(allData.map(d => d.Grade))].sort();
-
             const langSel = document.getElementById('languageFilter');
             const gradeSel = document.getElementById('gradeFilter');
-
             if (langSel.options.length <= 1) {
                 langs.forEach(l => langSel.add(new Option(l, l)));
                 grades.forEach(g => gradeSel.add(new Option(g, g)));
             }
         }
 
-        function updateDashboard() {
-            applyFilters();
-            renderMetrics();
-            renderHeatmap();
-            renderBreakdown();
-            renderTable();
-        }
+        function updateDashboard() { applyFilters(); renderMetrics(); renderHeatmap(); renderBreakdown(); renderTable(); }
 
         function applyFilters() {
             const lang = document.getElementById('languageFilter').value;
             const type = document.getElementById('materialTypeFilter').value;
             const grade = document.getElementById('gradeFilter').value;
             const stat = document.getElementById('statusFilter').value;
-
             filteredData = allData.filter(d => {
                 return (lang === 'all' || d.Language === lang) &&
                     (type === 'all' || d.Material_Type === type) &&
@@ -1337,9 +1364,7 @@
             });
         }
 
-        function getStatus(d) {
-            return d.QA_Status || 'Pending';
-        }
+        function getStatus(d) { return d.QA_Status || 'Pending'; }
 
         function renderMetrics() {
             document.getElementById('totalCount').textContent = filteredData.length;
@@ -1351,7 +1376,6 @@
         function renderHeatmap() {
             const container = document.getElementById('heatmapContainer');
             const groups = {};
-
             filteredData.forEach(d => {
                 const key = `${d.Language} | ${d.Grade} (${d.Material_Type})`;
                 if (!groups[key]) groups[key] = new Set();
@@ -1359,12 +1383,11 @@
                 lessons.forEach(l => {
                     const clean = l.trim();
                     if (clean) {
-                        if (clean.includes('_')) clean.split('_').forEach(part => groups[key].add(part));
-                        else groups[key].add(clean);
+                        const numbers = extractLessonNumbers(clean);
+                        numbers.forEach(num => groups[key].add(String(num)));
                     }
                 });
             });
-
             const keys = Object.keys(groups).sort();
             let html = '<div class="heatmap-grid">';
             keys.forEach(key => {
@@ -1390,47 +1413,24 @@
                 langs[d.Language].total++;
                 if (getStatus(d) === 'Passed') langs[d.Language].passed++;
             });
-
             container.innerHTML = Object.entries(langs).map(([name, stats]) => {
                 const pct = Math.round((stats.passed / stats.total) * 100);
-                return `
-                    <div class="language-card">
-                        <div style="display:flex; justify-content:space-between; font-weight:600;">
-                            <span>${name}</span>
-                            <span>${stats.total} submissions</span>
-                        </div>
-                        <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:${pct}%"></div></div>
-                        <div style="font-size:0.75rem; color:var(--text-secondary);">${pct}% Passed QA</div>
-                    </div>
-                `;
+                return `<div class="language-card"><div style="display:flex; justify-content:space-between; font-weight:600;"><span>${name}</span><span>${stats.total} submissions</span></div><div class="progress-bar-bg"><div class="progress-bar-fill" style="width:${pct}%"></div></div><div style="font-size:0.75rem; color:var(--text-secondary);">${pct}% Passed QA</div></div>`;
             }).join('');
         }
 
         function renderTable() {
             const container = document.getElementById('tableContent');
             const sorted = [...filteredData].sort((a, b) => new Date(b.Timestamp) - new Date(a.Timestamp));
-
             container.innerHTML = sorted.map(d => {
                 const status = getStatus(d);
                 const cls = 'status-' + status.toLowerCase().replace('_', '');
-                return `
-                    <tr>
-                        <td>${new Date(d.Timestamp).toLocaleDateString()}</td>
-                        <td><b>${d.Language}</b></td>
-                        <td>${d.Grade}</td>
-                        <td>${d.Material_Type}</td>
-                        <td>${(d.Lessons_Covered || '').replace(/_/g, '/')}</td>
-                        <td><span class="status-badge ${cls}">${status}</span></td>
-                    </tr>
-                `;
+                return `<tr><td>${new Date(d.Timestamp).toLocaleDateString()}</td><td><b>${d.Language}</b></td><td>${d.Grade}</td><td>${d.Material_Type}</td><td>${(d.Lessons_Covered || '').replace(/_/g, '/')}</td><td><span class="status-badge ${cls}">${status}</span></td></tr>`;
             }).join('');
         }
 
-        // Filters listeners
         document.querySelectorAll('.filter-panel select').forEach(s => s.onchange = updateDashboard);
         document.getElementById('refreshBtn').onclick = loadData;
-
-        // Auto-load
         loadData();
     </script>
 </body>
