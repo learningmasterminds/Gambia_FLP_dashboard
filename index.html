@@ -649,6 +649,7 @@
 <body>
     <header class="header">
         <div class="container" style="margin:0 auto; padding: 0 1rem;">
+            <p style="font-size: 0.9rem; opacity: 0.8; margin-bottom: 0.25rem;">The Gambia</p>
             <h1>Ministry of Basic & Secondary Education</h1>
             <p>Foundational Learning Project (FLP) | Materials Portal</p>
         </div>
@@ -745,7 +746,8 @@
                                 submissions if needed.</p>
                             <div id="submissionSummary"
                                 style="display: none; margin-bottom: 1rem; padding: 0.75rem; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; font-size: 0.85rem; color: #166534;">
-                                <strong>📋 Previous Submissions Found:</strong> <span id="summaryText"></span></div>
+                                <strong>📋 Previous Submissions Found:</strong> <span id="summaryText"></span>
+                            </div>
                             <div class="lesson-grid-container" id="lessonGrid"></div>
                         </section>
                         <section class="form-section">
@@ -907,7 +909,7 @@
         document.getElementById('successBtnLogout').onclick = () => { successModal.style.display = 'none'; forceLogout(); };
         const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTADigssvh4UCjCLyZ4SEAqQWJlWUqlrYk9AOGUB8a2Qop6Yglvn1IGj9rOArZoSWet3P5BV0KU5w4X/pub?gid=1041792494&single=true&output=csv";
         async function loadData() { try { document.getElementById('lastUpdated').textContent = 'Loading...'; const res = await fetch(CSV_URL + '&cache=' + Date.now()), csv = await res.text(); allData = parseCSV(csv); filteredData = [...allData]; populateFilters(); updateDashboard(); refreshLessonGrid(); document.getElementById('lastUpdated').textContent = 'Updated: ' + new Date().toLocaleTimeString(); } catch (e) { console.error(e); document.getElementById('lastUpdated').textContent = 'Failed to load'; } }
-        function parseCSV(csv) { const lines = csv.trim().split('\n'), headers = lines[0].split(',').map(h => h.trim()); return lines.slice(1).map(line => { const values = line.split(',').map(v => v.trim().replace(/^"(.*)"$/, '$1')); const obj = {}; headers.forEach((h, i) => obj[h] = values[i]); return obj; }).filter(d => d.Language); }
+        function parseCSV(csv) { const lines = csv.trim().split('\n'); const parseRow = (row) => { const result = []; let current = ''; let inQuotes = false; for (let i = 0; i < row.length; i++) { const char = row[i]; if (char === '"') { inQuotes = !inQuotes; } else if (char === ',' && !inQuotes) { result.push(current.trim().replace(/^"|"$/g, '')); current = ''; } else { current += char; } } result.push(current.trim().replace(/^"|"$/g, '')); return result; }; const headers = parseRow(lines[0]); return lines.slice(1).map(line => { const values = parseRow(line); const obj = {}; headers.forEach((h, i) => obj[h] = values[i] || ''); return obj; }).filter(d => d.Language); }
         function populateFilters() { const langs = [...new Set(allData.map(d => d.Language))].sort(), grades = [...new Set(allData.map(d => d.Grade))].sort(), langSel = document.getElementById('languageFilter'), gradeSel = document.getElementById('gradeFilter'); if (langSel.options.length <= 1) { langs.forEach(l => langSel.add(new Option(l, l))); grades.forEach(g => gradeSel.add(new Option(g, g))); } }
         function updateDashboard() { applyFilters(); renderMetrics(); renderHeatmap(); renderBreakdown(); renderTable(); }
         function applyFilters() { const lang = document.getElementById('languageFilter').value, type = document.getElementById('materialTypeFilter').value, grade = document.getElementById('gradeFilter').value, stat = document.getElementById('statusFilter').value; filteredData = allData.filter(d => (lang === 'all' || d.Language === lang) && (type === 'all' || d.Material_Type === type) && (grade === 'all' || d.Grade === grade) && (stat === 'all' || getStatus(d) === stat)); }
