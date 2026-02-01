@@ -653,12 +653,10 @@
             <p>Foundational Learning Project (FLP) | Materials Portal</p>
         </div>
     </header>
-
     <nav class="nav-tabs">
         <a href="#submit" class="nav-tab active" id="tab-button-submit">📤 Submit Material</a>
         <a href="#dashboard" class="nav-tab" id="tab-button-dashboard">📊 View Quality Dashboard</a>
     </nav>
-
     <div class="container">
         <div id="tab-content-submit" class="tab-content active">
             <div id="authScreen" class="auth-container">
@@ -666,23 +664,17 @@
                 <h2 class="auth-title">Writer Verification</h2>
                 <p class="auth-subtitle">Please enter your registered email and access code to continue.</p>
                 <form id="authForm" class="auth-form">
-                    <div class="field-group">
-                        <label for="auth_email">Official Email</label>
-                        <input type="email" id="auth_email" required placeholder="name@example.com">
-                    </div>
-                    <div class="field-group">
-                        <label for="auth_code">Access Code</label>
-                        <input type="text" id="auth_code" required placeholder="XXX-000" maxlength="7">
-                    </div>
+                    <div class="field-group"><label for="auth_email">Official Email</label><input type="email"
+                            id="auth_email" required placeholder="name@example.com"></div>
+                    <div class="field-group"><label for="auth_code">Access Code</label><input type="text" id="auth_code"
+                            required placeholder="XXX-000" maxlength="7"></div>
                     <button type="submit" class="auth-btn">Verify Identity</button>
                     <div id="authError" class="auth-error">Invalid email or access code. Please try again.</div>
                 </form>
             </div>
-
             <div id="formWrapper">
                 <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 1rem;">
-                    <div></div>
-                    <button class="logout-btn" id="logoutBtn">🔒 Logout</button>
+                    <div></div><button class="logout-btn" id="logoutBtn">🔒 Logout</button>
                 </div>
                 <form id="submissionForm">
                     <section class="form-section">
@@ -690,30 +682,22 @@
                                 style="font-size: 0.7rem; color: var(--text-secondary); margin-left: auto;">Verified</span>
                         </h2>
                         <div class="grid-2">
-                            <div class="field-group">
-                                <label for="writer_name">Full Name</label>
-                                <input type="text" id="writer_name" name="writer_name" required
-                                    placeholder="Enter your full name">
+                            <div class="field-group"><label for="writer_name">Full Name</label><input type="text"
+                                    id="writer_name" name="writer_name" required placeholder="Enter your full name">
                             </div>
-                            <div class="field-group">
-                                <label for="submitter_email">Submitter Email</label>
-                                <input type="email" id="submitter_email" name="submitter_email" required readonly>
-                            </div>
+                            <div class="field-group"><label for="submitter_email">Submitter Email</label><input
+                                    type="email" id="submitter_email" name="submitter_email" required readonly></div>
                         </div>
                         <div class="grid-2">
-                            <div class="field-group">
-                                <label for="submission_date">Submission Date</label>
-                                <input type="date" id="submission_date" name="submission_date" required>
-                            </div>
+                            <div class="field-group"><label for="submission_date">Submission Date</label><input
+                                    type="date" id="submission_date" name="submission_date" required></div>
                         </div>
                     </section>
-
                     <section class="form-section">
                         <h2 class="section-title">📖 Material Identification</h2>
                         <div class="grid-2">
-                            <div class="field-group">
-                                <label for="language">Language</label>
-                                <select id="language" name="language" required>
+                            <div class="field-group"><label for="language">Language</label><select id="language"
+                                    name="language" required>
                                     <option value="">Select Language</option>
                                     <option value="English">English</option>
                                     <option value="Mandinka">Mandinka</option>
@@ -723,134 +707,101 @@
                                     <option value="Serer">Serer (Seereer)</option>
                                     <option value="Manjaku">Manjaku</option>
                                     <option value="Sarahule">Sarahule (Serahule)</option>
-                                </select>
-                            </div>
-                            <div class="field-group">
-                                <label for="grade_level">Grade Level</label>
-                                <select id="grade_level" name="grade_level" required>
+                                </select></div>
+                            <div class="field-group"><label for="grade_level">Grade Level</label><select
+                                    id="grade_level" name="grade_level" required>
                                     <option value="">Select Grade</option>
                                     <option value="ECD_2">ECD 2</option>
                                     <option value="ECD_3">ECD 3</option>
                                     <option value="Grade_1">Grade 1</option>
-                                </select>
-                            </div>
+                                </select></div>
                         </div>
                         <div class="grid-2">
-                            <div class="field-group">
-                                <label for="material_type">Material Type</label>
-                                <select id="material_type" name="material_type" required disabled>
+                            <div class="field-group"><label for="material_type">Material Type</label><select
+                                    id="material_type" name="material_type" required disabled>
                                     <option value="">Select Grade First</option>
-                                </select>
-                            </div>
-                            <div class="field-group">
-                                <label for="term">Term</label>
-                                <select id="term" name="term" required>
+                                </select></div>
+                            <div class="field-group"><label for="term">Term</label><select id="term" name="term"
+                                    required>
                                     <option value="Term_2">Term 2 (Lessons 51-100)</option>
                                     <option value="Term_3">Term 3 (Lessons 101-150)</option>
-                                </select>
-                            </div>
+                                </select></div>
                         </div>
                     </section>
-
-                    <div id="continueSection" style="text-align: center; margin: 1.5rem 0;">
-                        <button type="button" id="continueBtn" class="submit-btn"
-                            style="max-width: 300px; background: #64748b;" disabled>
-                            ➡️ Continue to Select Lessons
-                        </button>
+                    <div id="continueSection" style="text-align: center; margin: 1.5rem 0;"><button type="button"
+                            id="continueBtn" class="submit-btn" style="max-width: 300px; background: #64748b;"
+                            disabled>➡️ Continue to Select Lessons</button>
                         <p id="continueHint"
                             style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 0.5rem;">Please complete
                             all fields above first</p>
                     </div>
-
                     <div id="lessonsAndUploadSection" style="display: none;">
                         <section class="form-section">
                             <h2 class="section-title">📊 Lesson Coverage <span id="lessonRangeLabel">(Lessons
                                     51-100)</span></h2>
-                            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">
-                                Select all lessons covered in this submission.
-                                <strong>Already-submitted lessons are hidden by default.</strong>
-                                Click "✏️ Edit" on a week to reveal and modify previous submissions if needed.
-                            </p>
+                            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">Select all
+                                lessons covered in this submission. <strong>Already-submitted lessons are hidden by
+                                    default.</strong> Click "✏️ Edit" on a week to reveal and modify previous
+                                submissions if needed.</p>
                             <div id="submissionSummary"
                                 style="display: none; margin-bottom: 1rem; padding: 0.75rem; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; font-size: 0.85rem; color: #166534;">
-                                <strong>📋 Previous Submissions Found:</strong> <span id="summaryText"></span>
-                            </div>
+                                <strong>📋 Previous Submissions Found:</strong> <span id="summaryText"></span></div>
                             <div class="lesson-grid-container" id="lessonGrid"></div>
                         </section>
-
                         <section class="form-section">
                             <h2 class="section-title">📤 Document Upload</h2>
                             <div class="upload-area" id="dropZone">
                                 <div style="font-size: 2rem; margin-bottom: 1rem;">📄</div>
                                 <p><b>Click to upload</b> or drag and drop</p>
                                 <p style="font-size: 0.8rem; color: var(--text-secondary);">Word (.docx) or PDF (Max
-                                    25MB)</p>
-                                <input type="file" id="file_upload" name="file_upload" accept=".doc,.docx,.pdf"
-                                    style="display: none;" required>
+                                    25MB)</p><input type="file" id="file_upload" name="file_upload"
+                                    accept=".doc,.docx,.pdf" style="display: none;" required>
                             </div>
                             <div id="fileInfo"
                                 style="margin-top: 1rem; display: none; color: var(--success); font-weight: 600;">
-                                Selected: <span id="fileName"></span>
-                            </div>
-                            <div class="field-group" style="margin-top: 1.5rem;">
-                                <label for="additional_notes">Additional Notes</label>
-                                <textarea id="additional_notes" name="additional_notes" rows="3"></textarea>
-                            </div>
+                                Selected: <span id="fileName"></span></div>
+                            <div class="field-group" style="margin-top: 1.5rem;"><label
+                                    for="additional_notes">Additional Notes</label><textarea id="additional_notes"
+                                    name="additional_notes" rows="3"></textarea></div>
                         </section>
-
                         <button type="submit" class="submit-btn" id="submitBtn">Submit Material</button>
                     </div>
                 </form>
             </div>
         </div>
-
         <div id="tab-content-dashboard" class="tab-content">
             <div class="dashboard-header">
                 <h2 style="font-size: 1.5rem; color: var(--primary);">Real-time Progress Tracking</h2>
                 <div style="display: flex; gap: 0.5rem; align-items: center;">
-                    <div class="update-badge" id="lastUpdated">Updating...</div>
-                    <button class="nav-tab" id="refreshBtn" style="padding: 0.5rem 1rem; font-size: 0.8rem;">🔄
-                        Refresh</button>
+                    <div class="update-badge" id="lastUpdated">Updating...</div><button class="nav-tab" id="refreshBtn"
+                        style="padding: 0.5rem 1rem; font-size: 0.8rem;">🔄 Refresh</button>
                 </div>
             </div>
-
             <section class="filter-panel">
                 <div class="filter-grid">
-                    <div class="field-group" style="margin:0">
-                        <label>Language</label>
-                        <select id="languageFilter">
+                    <div class="field-group" style="margin:0"><label>Language</label><select id="languageFilter">
                             <option value="all">All Languages</option>
-                        </select>
-                    </div>
-                    <div class="field-group" style="margin:0">
-                        <label>Material Type</label>
-                        <select id="materialTypeFilter">
+                        </select></div>
+                    <div class="field-group" style="margin:0"><label>Material Type</label><select
+                            id="materialTypeFilter">
                             <option value="all">All Types</option>
                             <option value="Teacher Guide">Teacher Guide</option>
                             <option value="Pupil Book">Pupil Book</option>
                             <option value="Pupil Book Story Planner">Pupil Book Story Planner</option>
                             <option value="Illustrations">Illustrations</option>
-                        </select>
-                    </div>
-                    <div class="field-group" style="margin:0">
-                        <label>Grade</label>
-                        <select id="gradeFilter">
+                        </select></div>
+                    <div class="field-group" style="margin:0"><label>Grade</label><select id="gradeFilter">
                             <option value="all">All Grades</option>
-                        </select>
-                    </div>
-                    <div class="field-group" style="margin:0">
-                        <label>Status</label>
-                        <select id="statusFilter">
+                        </select></div>
+                    <div class="field-group" style="margin:0"><label>Status</label><select id="statusFilter">
                             <option value="all">All Statuses</option>
                             <option value="Submitted">Submitted</option>
                             <option value="Pending">Pending QA</option>
                             <option value="Passed">QA Passed</option>
                             <option value="Failed">QA Failed</option>
-                        </select>
-                    </div>
+                        </select></div>
                 </div>
             </section>
-
             <section class="metrics-grid">
                 <div class="metric-card">
                     <div class="metric-label">Total Submissions</div>
@@ -869,7 +820,6 @@
                     <div class="metric-value" id="failedCount">0</div>
                 </div>
             </section>
-
             <section class="breakdown-panel">
                 <h3 class="section-title">🗺️ Lesson Coverage Matrix (Term 2)</h3>
                 <div id="heatmapContainer"></div>
@@ -888,12 +838,10 @@
                     </div>
                 </div>
             </section>
-
             <div class="breakdown-panel">
                 <h3 class="section-title">📊 Progress by Language</h3>
                 <div id="languageBreakdown" class="language-grid"></div>
             </div>
-
             <div class="table-container">
                 <table class="submissions-table">
                     <thead>
@@ -911,7 +859,6 @@
             </div>
         </div>
     </div>
-
     <div id="successModal" class="modal-overlay">
         <div class="modal-content">
             <div class="modal-icon">✅</div>
@@ -919,519 +866,57 @@
             <p>Your material has been received and queued for QA. You will receive a confirmation email shortly.</p>
             <p style="margin-top: 1rem; font-weight: 600; color: var(--primary);">Would you like to submit another
                 material?</p>
-            <div class="modal-buttons">
-                <button class="modal-btn modal-btn-secondary" id="successBtnLogout">No, Logout</button>
-                <button class="modal-btn modal-btn-primary" id="successBtnAnother">Yes, Continue</button>
-            </div>
+            <div class="modal-buttons"><button class="modal-btn modal-btn-secondary" id="successBtnLogout">No,
+                    Logout</button><button class="modal-btn modal-btn-primary" id="successBtnAnother">Yes,
+                    Continue</button></div>
         </div>
     </div>
-
     <footer>
         <p>&copy; 2026 MoBSE | Foundational Learning Project (FLP)</p>
     </footer>
-
     <script>
         let allData = [];
         let filteredData = [];
-
-        const ACCESS_KEYS = {
-            "alhagiesow@gmail.com": "ASW-762",
-            "aboukhan4@gmail.com": "ABK-291",
-            "ssurakata8@gmail.com": "SSK-483",
-            "mamudout@gmail.com": "MMD-105",
-            "victoriagor@gmail.com": "VIC-339",
-            "jjmendy66@gmail.com": "JJM-882",
-            "bittayeami@gmail.com": "BTA-514",
-            "gaindow0@gmail.com": "GDW-627",
-            "madun.ma@gmail.com": "MDN-441",
-            "ansusanya@gmail.com": "ASN-992",
-            "laminbjam@gmail.com": "LJM-308",
-            "amsanjie7@gmail.com": "AMS-176",
-            "saphiecam@gmail.com": "SPC-825",
-            "camaralisa@gmail.com": "CLS-903",
-            "kumbabah06@gmail.com": "KBB-614",
-            "eakoto484@gmail.com": "EAK-484",
-            "nasir.baba@learningmasterminds.org": "NSB-001"
-        };
-
-        const authForm = document.getElementById('authForm');
-        const authScreen = document.getElementById('authScreen');
-        const formWrapper = document.getElementById('formWrapper');
-        const authError = document.getElementById('authError');
-        const submitterEmailField = document.getElementById('submitter_email');
-        const logoutBtn = document.getElementById('logoutBtn');
-
-        function forceLogout() {
-            authScreen.style.display = 'block';
-            formWrapper.style.display = 'none';
-            document.getElementById('authForm').reset();
-            document.getElementById('submissionForm').reset();
-            document.getElementById('fileInfo').style.display = 'none';
-        }
-
-        authForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const email = document.getElementById('auth_email').value.trim().toLowerCase();
-            const code = document.getElementById('auth_code').value.trim().toUpperCase();
-            if (ACCESS_KEYS[email] === code) {
-                authScreen.style.display = 'none';
-                formWrapper.style.display = 'block';
-                submitterEmailField.value = email;
-                submitterEmailField.readOnly = true;
-                authError.style.display = 'none';
-                sessionStorage.setItem('v_verified', 'true');
-                sessionStorage.setItem('v_email', email);
-            } else {
-                authError.style.display = 'block';
-            }
-        });
-
+        const ACCESS_KEYS = { "alhagiesow@gmail.com": "ASW-762", "aboukhan4@gmail.com": "ABK-291", "ssurakata8@gmail.com": "SSK-483", "mamudout@gmail.com": "MMD-105", "victoriagor@gmail.com": "VIC-339", "jjmendy66@gmail.com": "JJM-882", "bittayeami@gmail.com": "BTA-514", "gaindow0@gmail.com": "GDW-627", "madun.ma@gmail.com": "MDN-441", "ansusanya@gmail.com": "ASN-992", "laminbjam@gmail.com": "LJM-308", "amsanjie7@gmail.com": "AMS-176", "saphiecam@gmail.com": "SPC-825", "camaralisa@gmail.com": "CLS-903", "kumbabah06@gmail.com": "KBB-614", "eakoto484@gmail.com": "EAK-484", "nasir.baba@learningmasterminds.org": "NSB-001" };
+        const authForm = document.getElementById('authForm'), authScreen = document.getElementById('authScreen'), formWrapper = document.getElementById('formWrapper'), authError = document.getElementById('authError'), submitterEmailField = document.getElementById('submitter_email'), logoutBtn = document.getElementById('logoutBtn');
+        function forceLogout() { authScreen.style.display = 'block'; formWrapper.style.display = 'none'; document.getElementById('authForm').reset(); document.getElementById('submissionForm').reset(); document.getElementById('fileInfo').style.display = 'none'; }
+        authForm.addEventListener('submit', e => { e.preventDefault(); const email = document.getElementById('auth_email').value.trim().toLowerCase(), code = document.getElementById('auth_code').value.trim().toUpperCase(); if (ACCESS_KEYS[email] === code) { authScreen.style.display = 'none'; formWrapper.style.display = 'block'; submitterEmailField.value = email; submitterEmailField.readOnly = true; authError.style.display = 'none'; sessionStorage.setItem('v_verified', 'true'); sessionStorage.setItem('v_email', email); } else { authError.style.display = 'block'; } });
         logoutBtn.onclick = forceLogout;
-
-        const tabs = document.querySelectorAll('.nav-tab');
-        const contents = document.querySelectorAll('.tab-content');
-        tabs.forEach(tab => {
-            tab.addEventListener('click', (e) => {
-                e.preventDefault();
-                const targetId = tab.getAttribute('href').substring(1);
-                tabs.forEach(t => t.classList.remove('active'));
-                contents.forEach(c => c.classList.remove('active'));
-                tab.classList.add('active');
-                document.getElementById('tab-content-' + targetId).classList.add('active');
-                if (targetId === 'dashboard') loadData();
-            });
-        });
-
+        const tabs = document.querySelectorAll('.nav-tab'), contents = document.querySelectorAll('.tab-content'); tabs.forEach(tab => { tab.addEventListener('click', e => { e.preventDefault(); const targetId = tab.getAttribute('href').substring(1); tabs.forEach(t => t.classList.remove('active')); contents.forEach(c => c.classList.remove('active')); tab.classList.add('active'); document.getElementById('tab-content-' + targetId).classList.add('active'); if (targetId === 'dashboard') loadData(); }); });
         document.getElementById('submission_date').valueAsDate = new Date();
-        const gradeSelect = document.getElementById('grade_level');
-        const typeSelect = document.getElementById('material_type');
-
-        gradeSelect.addEventListener('change', () => {
-            const grade = gradeSelect.value;
-            typeSelect.disabled = false;
-            typeSelect.innerHTML = '';
-            if (grade === 'Grade_1') {
-                [{ value: 'Pupil Book Story Planner', label: 'Pupil Book Story Planner' },
-                { value: 'Pupil Book', label: 'Pupil Book' },
-                { value: 'Teacher Guide', label: 'Teacher Guide' },
-                { value: 'Illustrations', label: 'Illustrations' }].forEach(opt => {
-                    const el = document.createElement('option');
-                    el.value = opt.value; el.textContent = opt.label;
-                    typeSelect.appendChild(el);
-                });
-            } else if (grade.includes('ECD')) {
-                const el = document.createElement('option');
-                el.value = 'Teacher Guide'; el.textContent = 'Teacher Guide';
-                typeSelect.appendChild(el);
-            } else {
-                typeSelect.disabled = true;
-                typeSelect.innerHTML = '<option value="">Select Grade First</option>';
-            }
-            checkContinueReady();
-        });
-
-        const continueBtn = document.getElementById('continueBtn');
-        const continueHint = document.getElementById('continueHint');
-        const lessonsSection = document.getElementById('lessonsAndUploadSection');
-
-        function checkContinueReady() {
-            const lang = document.getElementById('language').value;
-            const grade = document.getElementById('grade_level').value;
-            const type = document.getElementById('material_type').value;
-            const term = document.getElementById('term').value;
-            const ready = lang && grade && type && term;
-            continueBtn.disabled = !ready;
-            continueBtn.style.background = ready ? 'var(--primary)' : '#64748b';
-            continueHint.style.display = ready ? 'none' : 'block';
-        }
-
-        ['language', 'grade_level', 'material_type', 'term'].forEach(id => {
-            document.getElementById(id).addEventListener('change', checkContinueReady);
-        });
-
-        continueBtn.addEventListener('click', () => {
-            refreshLessonGrid();
-            lessonsSection.style.display = 'block';
-            document.getElementById('continueSection').style.display = 'none';
-            lessonsSection.scrollIntoView({ behavior: 'smooth' });
-        });
-
-        function getWeekFromLesson(lessonStr) {
-            const firstLesson = parseInt(lessonStr.split(/[_,]/)[0], 10);
-            if (isNaN(firstLesson) || firstLesson < 51) return '1';
-            return String(Math.ceil((firstLesson - 50) / 5));
-        }
-
-        function normalizeGrade(grade) {
-            if (!grade) return '';
-            return grade.toString().trim().replace(/[_\s]+/g, ' ').replace(/\s+/g, ' ').trim();
-        }
-
-        function normalizeLessonCode(lessonStr) {
-            if (!lessonStr) return '';
-            const cleaned = lessonStr.toString().trim();
-            if (/^\d+$/.test(cleaned)) return cleaned;
-            const match = cleaned.match(/(\d+)[_\/\-,\s]+(\d+)/);
-            if (match) return `${match[1]}_${match[2]}`;
-            return cleaned;
-        }
-
-        function extractLessonNumbers(lessonCode) {
-            const normalized = normalizeLessonCode(lessonCode);
-            const numbers = normalized.match(/\d+/g);
-            return numbers ? numbers.map(n => parseInt(n, 10)) : [];
-        }
-
-        function isLessonSubmitted(lessonCode, existingLessonsSet) {
-            const normalized = normalizeLessonCode(lessonCode);
-            if (existingLessonsSet.has(normalized)) return true;
-            const lessonNumbers = extractLessonNumbers(normalized);
-            if (lessonNumbers.length === 0) return false;
-            return lessonNumbers.every(num => existingLessonsSet.has(String(num)));
-        }
-
-        function getLessonRangeForTerm(term) {
-            if (term === 'Term_2') return { start: 51, end: 100, label: 'Lessons 51-100' };
-            if (term === 'Term_3') return { start: 101, end: 150, label: 'Lessons 101-150' };
-            return { start: 51, end: 100, label: 'Lessons 51-100' };
-        }
-
-        function generateWeeksForTerm(term) {
-            const weeks = [];
-            if (term === 'Term_2') {
-                weeks.push(
-                    { id: 1, range: '51-55', lessons: [['51_52', '51/52'], ['53_54', '53/54'], ['55', '55']] },
-                    { id: 2, range: '56-60', lessons: [['56_57', '56/57'], ['58_59', '58/59'], ['60', '60']] },
-                    { id: 3, range: '61-65', lessons: [['61_62', '61/62'], ['63_64', '63/64'], ['65', '65']] },
-                    { id: 4, range: '66-70', lessons: [['66_67', '66/67'], ['68_69', '68/69'], ['70', '70']] },
-                    { id: 5, range: '71-75', lessons: [['71_72', '71/72'], ['73_74', '73/74'], ['75', '75']] },
-                    { id: 6, range: '76-80', lessons: [['76_77', '76/77'], ['78_79', '78/79'], ['80', '80']] },
-                    { id: 7, range: '81-85', lessons: [['81_82', '81/82'], ['83_84', '83/84'], ['85', '85']] },
-                    { id: 8, range: '86-90', lessons: [['86_87', '86/87'], ['88_89', '88/89'], ['90', '90']] },
-                    { id: 9, range: '91-95', lessons: [['91', '91'], ['92', '92'], ['93', '93'], ['94', '94'], ['95', '95']] },
-                    { id: 10, range: '96-100', lessons: [['96', '96'], ['97', '97'], ['98', '98'], ['99', '99'], ['100', '100']] }
-                );
-            } else if (term === 'Term_3') {
-                weeks.push(
-                    { id: 1, range: '101-105', lessons: [['101_102', '101/102'], ['103_104', '103/104'], ['105', '105']] },
-                    { id: 2, range: '106-110', lessons: [['106_107', '106/107'], ['108_109', '108/109'], ['110', '110']] },
-                    { id: 3, range: '111-115', lessons: [['111_112', '111/112'], ['113_114', '113/114'], ['115', '115']] },
-                    { id: 4, range: '116-120', lessons: [['116_117', '116/117'], ['118_119', '118/119'], ['120', '120']] },
-                    { id: 5, range: '121-125', lessons: [['121_122', '121/122'], ['123_124', '123/124'], ['125', '125']] },
-                    { id: 6, range: '126-130', lessons: [['126_127', '126/127'], ['128_129', '128/129'], ['130', '130']] },
-                    { id: 7, range: '131-135', lessons: [['131_132', '131/132'], ['133_134', '133/134'], ['135', '135']] },
-                    { id: 8, range: '136-140', lessons: [['136_137', '136/137'], ['138_139', '138/139'], ['140', '140']] },
-                    { id: 9, range: '141-145', lessons: [['141', '141'], ['142', '142'], ['143', '143'], ['144', '144'], ['145', '145']] },
-                    { id: 10, range: '146-150', lessons: [['146', '146'], ['147', '147'], ['148', '148'], ['149', '149'], ['150', '150']] }
-                );
-            }
-            return weeks;
-        }
-
-        function refreshLessonGrid() {
-            const grid = document.getElementById('lessonGrid');
-            const lang = document.getElementById('language').value;
-            const gradeRaw = document.getElementById('grade_level').value;
-            const type = document.getElementById('material_type').value;
-            const term = document.getElementById('term').value;
-            const gradeNormalized = normalizeGrade(gradeRaw);
-            const range = getLessonRangeForTerm(term);
-            document.getElementById('lessonRangeLabel').textContent = `(${range.label})`;
-            grid.innerHTML = '';
-
-            const existingLessons = new Set();
-            const existingLessonCodes = new Set();
-
-            if (allData && allData.length > 0) {
-                allData.forEach(d => {
-                    const csvGradeNormalized = normalizeGrade(d.Grade);
-                    if (d.Language === lang && csvGradeNormalized === gradeNormalized && d.Material_Type === type) {
-                        const lessonData = d.Lessons_Covered || d['Lessons Covered'] || d.Lessons || '';
-                        const lessons = lessonData.split(/[,;]/);
-                        lessons.forEach(l => {
-                            const clean = l.trim();
-                            if (clean) {
-                                const normalized = normalizeLessonCode(clean);
-                                existingLessonCodes.add(normalized);
-                                const numbers = extractLessonNumbers(clean);
-                                numbers.forEach(num => existingLessons.add(String(num)));
-                            }
-                        });
-                    }
-                });
-            }
-
-            console.log('Searching for:', { lang, gradeNormalized, type, term });
-            console.log('Found submitted lessons:', Array.from(existingLessons));
-
-            const summaryDiv = document.getElementById('submissionSummary');
-            const summaryText = document.getElementById('summaryText');
-
-            if (existingLessons.size > 0) {
-                const sortedLessons = Array.from(existingLessons)
-                    .map(n => parseInt(n, 10))
-                    .filter(n => n >= range.start && n <= range.end)
-                    .sort((a, b) => a - b);
-                if (sortedLessons.length > 0) {
-                    summaryText.textContent = `Lessons ${sortedLessons.join(', ')} have been previously submitted for ${lang} ${gradeNormalized} ${type}.`;
-                    summaryDiv.style.display = 'block';
-                } else {
-                    summaryDiv.style.display = 'none';
-                }
-            } else {
-                summaryDiv.style.display = 'none';
-            }
-
-            const weeks = generateWeeksForTerm(term);
-
-            weeks.forEach(week => {
-                const group = document.createElement('div');
-                group.className = 'week-group';
-
-                let submittedInWeek = 0;
-                let totalInWeek = week.lessons.length;
-                week.lessons.forEach(l => { if (isLessonSubmitted(l[0], existingLessons)) submittedInWeek++; });
-
-                let titleHTML = `<div class="week-title" style="display:flex;align-items:center;">Week ${week.id} (${week.range})`;
-                if (submittedInWeek > 0) {
-                    titleHTML += `<span class="week-submission-badge">${submittedInWeek}/${totalInWeek} submitted</span>`;
-                    titleHTML += `<button type="button" class="edit-toggle-btn" data-week="${week.id}" onclick="toggleWeekEdit(this)">✏️ Edit</button>`;
-                }
-                titleHTML += `</div><div class="lesson-options"></div>`;
-                group.innerHTML = titleHTML;
-
-                const optDiv = group.querySelector('.lesson-options');
-                week.lessons.forEach(l => {
-                    const lessonCode = l[0];
-                    const displayLabel = l[1];
-                    const isSubmitted = isLessonSubmitted(lessonCode, existingLessons);
-                    const label = document.createElement('label');
-                    label.className = 'checkbox-item' + (isSubmitted ? ' already-submitted' : '');
-                    label.innerHTML = `<input type="checkbox" name="lessons_covered" value="${lessonCode}" ${isSubmitted ? 'disabled' : ''}> <span>${displayLabel}</span>`;
-                    optDiv.appendChild(label);
-                });
-                grid.appendChild(group);
-            });
-        }
-
-        function toggleWeekEdit(btn) {
-            const weekGroup = btn.closest('.week-group');
-            const isShowing = weekGroup.classList.toggle('show-submitted');
-            if (isShowing) {
-                btn.classList.add('active');
-                btn.textContent = '✓ Done';
-                weekGroup.querySelectorAll('.checkbox-item.already-submitted input').forEach(input => {
-                    input.disabled = false;
-                    input.checked = true;
-                });
-            } else {
-                btn.classList.remove('active');
-                btn.textContent = '✏️ Edit';
-                weekGroup.querySelectorAll('.checkbox-item.already-submitted input').forEach(input => {
-                    input.disabled = true;
-                    input.checked = false;
-                });
-            }
-        }
-
-        window.toggleWeekEdit = toggleWeekEdit;
-        refreshLessonGrid();
-
-        const dropZone = document.getElementById('dropZone');
-        const fileInput = document.getElementById('file_upload');
-        dropZone.onclick = () => fileInput.click();
-        fileInput.onchange = (e) => {
-            if (e.target.files.length) {
-                document.getElementById('fileName').textContent = e.target.files[0].name;
-                document.getElementById('fileInfo').style.display = 'block';
-            }
-        };
-
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxVvlWJcKUGC-70aZ4qP7sGKmDVpxj25LtKTkwTj9GLsCgpoZGE1DDJYf4dpHZ6lhc88w/exec";
-        const successModal = document.getElementById('successModal');
-        const submissionForm = document.getElementById('submissionForm');
-
-        submissionForm.onsubmit = async (e) => {
-            e.preventDefault();
-            const btn = document.getElementById('submitBtn');
-            const originalText = btn.textContent;
-            if (!SCRIPT_URL) { alert("Backend not connected."); return; }
-            btn.disabled = true;
-            btn.textContent = '📤 Uploading...';
-            try {
-                const formData = new FormData(submissionForm);
-                const fileInput = document.getElementById('file_upload');
-                const file = fileInput.files[0];
-                const lessons = Array.from(document.querySelectorAll('input[name="lessons_covered"]:checked')).map(el => el.value).join(', ');
-                const reader = new FileReader();
-                reader.onload = async () => {
-                    const base64File = reader.result;
-                    const payload = {
-                        writerName: formData.get('writer_name'),
-                        submitterEmail: formData.get('submitter_email'),
-                        language: formData.get('language'),
-                        materialType: formData.get('material_type'),
-                        grade: formData.get('grade_level'),
-                        term: formData.get('term'),
-                        week: getWeekFromLesson(lessons),
-                        lessonsCovered: lessons,
-                        fileName: file.name,
-                        fileData: base64File
-                    };
-                    try {
-                        await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
-                        successModal.style.display = 'flex';
-                    } catch (err) { alert("Submission failed."); }
-                    finally { btn.disabled = false; btn.textContent = originalText; }
-                };
-                reader.readAsDataURL(file);
-            } catch (err) { alert("Error: " + err.message); btn.disabled = false; btn.textContent = originalText; }
-        };
-
-        document.getElementById('successBtnAnother').onclick = () => {
-            const savedName = document.getElementById('writer_name').value;
-            const savedEmail = document.getElementById('submitter_email').value;
-            document.getElementById('submissionForm').reset();
-            document.getElementById('writer_name').value = savedName;
-            document.getElementById('submitter_email').value = savedEmail;
-            document.getElementById('fileInfo').style.display = 'none';
-            successModal.style.display = 'none';
-            typeSelect.disabled = true;
-            document.getElementById('continueSection').style.display = 'block';
-            document.getElementById('lessonsAndUploadSection').style.display = 'none';
-            continueBtn.disabled = true;
-            continueBtn.style.background = '#64748b';
-            continueHint.style.display = 'block';
-            loadData();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        };
-
+        const gradeSelect = document.getElementById('grade_level'), typeSelect = document.getElementById('material_type');
+        gradeSelect.addEventListener('change', () => { const grade = gradeSelect.value; typeSelect.disabled = false; typeSelect.innerHTML = ''; if (grade === 'Grade_1') { [{ value: 'Pupil Book Story Planner', label: 'Pupil Book Story Planner' }, { value: 'Pupil Book', label: 'Pupil Book' }, { value: 'Teacher Guide', label: 'Teacher Guide' }, { value: 'Illustrations', label: 'Illustrations' }].forEach(opt => { const el = document.createElement('option'); el.value = opt.value; el.textContent = opt.label; typeSelect.appendChild(el); }); } else if (grade.includes('ECD')) { const el = document.createElement('option'); el.value = 'Teacher Guide'; el.textContent = 'Teacher Guide'; typeSelect.appendChild(el); } else { typeSelect.disabled = true; typeSelect.innerHTML = '<option value="">Select Grade First</option>'; } checkContinueReady(); });
+        const continueBtn = document.getElementById('continueBtn'), continueHint = document.getElementById('continueHint'), lessonsSection = document.getElementById('lessonsAndUploadSection');
+        function checkContinueReady() { const lang = document.getElementById('language').value, grade = document.getElementById('grade_level').value, type = document.getElementById('material_type').value, term = document.getElementById('term').value, ready = lang && grade && type && term; continueBtn.disabled = !ready; continueBtn.style.background = ready ? 'var(--primary)' : '#64748b'; continueHint.style.display = ready ? 'none' : 'block'; }
+        ['language', 'grade_level', 'material_type', 'term'].forEach(id => { document.getElementById(id).addEventListener('change', checkContinueReady); });
+        continueBtn.addEventListener('click', () => { refreshLessonGrid(); lessonsSection.style.display = 'block'; document.getElementById('continueSection').style.display = 'none'; lessonsSection.scrollIntoView({ behavior: 'smooth' }); });
+        function getWeekFromLesson(lessonStr) { const firstLesson = parseInt(lessonStr.split(/[_,]/)[0], 10); if (isNaN(firstLesson) || firstLesson < 51) return '1'; return String(Math.ceil((firstLesson - 50) / 5)); }
+        function normalizeGrade(grade) { if (!grade) return ''; return grade.toString().trim().replace(/[_\s]+/g, ' ').replace(/\s+/g, ' ').trim(); }
+        function normalizeLessonCode(lessonStr) { if (!lessonStr) return ''; const cleaned = lessonStr.toString().trim(); if (/^\d+$/.test(cleaned)) return cleaned; const match = cleaned.match(/(\d+)[_\/\-,\s]+(\d+)/); if (match) return `${match[1]}_${match[2]}`; return cleaned; }
+        function extractLessonNumbers(lessonCode) { if (!lessonCode) return []; const cleaned = lessonCode.toString().trim(); const numbers = cleaned.match(/\d+/g); return numbers ? numbers.map(n => parseInt(n, 10)) : []; }
+        function isLessonSubmitted(lessonCode, existingLessonsSet) { if (!lessonCode) return false; const lessonNumbers = extractLessonNumbers(lessonCode); if (lessonNumbers.length === 0) return false; return lessonNumbers.every(num => existingLessonsSet.has(String(num))); }
+        function getLessonRangeForTerm(term) { if (term === 'Term_2') return { start: 51, end: 100, label: 'Lessons 51-100' }; if (term === 'Term_3') return { start: 101, end: 150, label: 'Lessons 101-150' }; return { start: 51, end: 100, label: 'Lessons 51-100' }; }
+        function generateWeeksForTerm(term) { const weeks = []; if (term === 'Term_2') { weeks.push({ id: 1, range: '51-55', lessons: [['51_52', '51/52'], ['53_54', '53/54'], ['55', '55']] }, { id: 2, range: '56-60', lessons: [['56_57', '56/57'], ['58_59', '58/59'], ['60', '60']] }, { id: 3, range: '61-65', lessons: [['61_62', '61/62'], ['63_64', '63/64'], ['65', '65']] }, { id: 4, range: '66-70', lessons: [['66_67', '66/67'], ['68_69', '68/69'], ['70', '70']] }, { id: 5, range: '71-75', lessons: [['71_72', '71/72'], ['73_74', '73/74'], ['75', '75']] }, { id: 6, range: '76-80', lessons: [['76_77', '76/77'], ['78_79', '78/79'], ['80', '80']] }, { id: 7, range: '81-85', lessons: [['81_82', '81/82'], ['83_84', '83/84'], ['85', '85']] }, { id: 8, range: '86-90', lessons: [['86_87', '86/87'], ['88_89', '88/89'], ['90', '90']] }, { id: 9, range: '91-95', lessons: [['91', '91'], ['92', '92'], ['93', '93'], ['94', '94'], ['95', '95']] }, { id: 10, range: '96-100', lessons: [['96', '96'], ['97', '97'], ['98', '98'], ['99', '99'], ['100', '100']] }); } else if (term === 'Term_3') { weeks.push({ id: 1, range: '101-105', lessons: [['101_102', '101/102'], ['103_104', '103/104'], ['105', '105']] }, { id: 2, range: '106-110', lessons: [['106_107', '106/107'], ['108_109', '108/109'], ['110', '110']] }, { id: 3, range: '111-115', lessons: [['111_112', '111/112'], ['113_114', '113/114'], ['115', '115']] }, { id: 4, range: '116-120', lessons: [['116_117', '116/117'], ['118_119', '118/119'], ['120', '120']] }, { id: 5, range: '121-125', lessons: [['121_122', '121/122'], ['123_124', '123/124'], ['125', '125']] }, { id: 6, range: '126-130', lessons: [['126_127', '126/127'], ['128_129', '128/129'], ['130', '130']] }, { id: 7, range: '131-135', lessons: [['131_132', '131/132'], ['133_134', '133/134'], ['135', '135']] }, { id: 8, range: '136-140', lessons: [['136_137', '136/137'], ['138_139', '138/139'], ['140', '140']] }, { id: 9, range: '141-145', lessons: [['141', '141'], ['142', '142'], ['143', '143'], ['144', '144'], ['145', '145']] }, { id: 10, range: '146-150', lessons: [['146', '146'], ['147', '147'], ['148', '148'], ['149', '149'], ['150', '150']] }); } return weeks; }
+        function refreshLessonGrid() { const grid = document.getElementById('lessonGrid'), lang = document.getElementById('language').value, gradeRaw = document.getElementById('grade_level').value, type = document.getElementById('material_type').value, term = document.getElementById('term').value, gradeNormalized = normalizeGrade(gradeRaw), range = getLessonRangeForTerm(term); document.getElementById('lessonRangeLabel').textContent = `(${range.label})`; grid.innerHTML = ''; const existingLessons = new Set(), existingLessonCodes = new Set(); if (allData && allData.length > 0) { allData.forEach(d => { const csvGradeNormalized = normalizeGrade(d.Grade); if (d.Language === lang && csvGradeNormalized === gradeNormalized && d.Material_Type === type) { const lessonData = d.Lessons_Covered || d['Lessons Covered'] || d.Lessons || d.lessonsCovered || ''; const allNumbers = extractLessonNumbers(lessonData); allNumbers.forEach(num => existingLessons.add(String(num))); const lessons = lessonData.split(/[,;]/); lessons.forEach(l => { const clean = l.trim(); if (clean) { const normalized = normalizeLessonCode(clean); existingLessonCodes.add(normalized); } }); } }); } console.log('Searching for:', { lang, gradeNormalized, type, term }); console.log('Found submitted lessons:', Array.from(existingLessons)); console.log('Found submitted codes:', Array.from(existingLessonCodes)); const summaryDiv = document.getElementById('submissionSummary'), summaryText = document.getElementById('summaryText'); if (existingLessons.size > 0) { const sortedLessons = Array.from(existingLessons).map(n => parseInt(n, 10)).filter(n => n >= range.start && n <= range.end).sort((a, b) => a - b); if (sortedLessons.length > 0) { summaryText.textContent = `Lessons ${sortedLessons.join(', ')} have been previously submitted for ${lang} ${gradeNormalized} ${type}.`; summaryDiv.style.display = 'block'; } else { summaryDiv.style.display = 'none'; } } else { summaryDiv.style.display = 'none'; } const weeks = generateWeeksForTerm(term); weeks.forEach(week => { const group = document.createElement('div'); group.className = 'week-group'; let submittedInWeek = 0, totalInWeek = week.lessons.length; week.lessons.forEach(l => { if (isLessonSubmitted(l[0], existingLessons)) submittedInWeek++; }); let titleHTML = `<div class="week-title" style="display:flex;align-items:center;">Week ${week.id} (${week.range})`; if (submittedInWeek > 0) { titleHTML += `<span class="week-submission-badge">${submittedInWeek}/${totalInWeek} submitted</span>`; titleHTML += `<button type="button" class="edit-toggle-btn" data-week="${week.id}" onclick="toggleWeekEdit(this)">✏️ Edit</button>`; } titleHTML += `</div><div class="lesson-options"></div>`; group.innerHTML = titleHTML; const optDiv = group.querySelector('.lesson-options'); week.lessons.forEach(l => { const lessonCode = l[0], displayLabel = l[1], isSubmitted = isLessonSubmitted(lessonCode, existingLessons); const label = document.createElement('label'); label.className = 'checkbox-item' + (isSubmitted ? ' already-submitted' : ''); label.innerHTML = `<input type="checkbox" name="lessons_covered" value="${lessonCode}" ${isSubmitted ? 'disabled' : ''}><span>${displayLabel}</span>`; optDiv.appendChild(label); }); grid.appendChild(group); }); }
+        function toggleWeekEdit(btn) { const weekGroup = btn.closest('.week-group'), isShowing = weekGroup.classList.toggle('show-submitted'); if (isShowing) { btn.classList.add('active'); btn.textContent = '✓ Done'; weekGroup.querySelectorAll('.checkbox-item.already-submitted input').forEach(input => { input.disabled = false; input.checked = true; }); } else { btn.classList.remove('active'); btn.textContent = '✏️ Edit'; weekGroup.querySelectorAll('.checkbox-item.already-submitted input').forEach(input => { input.disabled = true; input.checked = false; }); } }
+        window.toggleWeekEdit = toggleWeekEdit; refreshLessonGrid();
+        const dropZone = document.getElementById('dropZone'), fileInput = document.getElementById('file_upload'); dropZone.onclick = () => fileInput.click(); fileInput.onchange = e => { if (e.target.files.length) { document.getElementById('fileName').textContent = e.target.files[0].name; document.getElementById('fileInfo').style.display = 'block'; } };
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxVvlWJcKUGC-70aZ4qP7sGKmDVpxj25LtKTkwTj9GLsCgpoZGE1DDJYf4dpHZ6lhc88w/exec", successModal = document.getElementById('successModal'), submissionForm = document.getElementById('submissionForm');
+        submissionForm.onsubmit = async e => { e.preventDefault(); const btn = document.getElementById('submitBtn'), originalText = btn.textContent; if (!SCRIPT_URL) { alert("Backend not connected."); return; } btn.disabled = true; btn.textContent = '📤 Uploading...'; try { const formData = new FormData(submissionForm), fileInput = document.getElementById('file_upload'), file = fileInput.files[0], lessons = Array.from(document.querySelectorAll('input[name="lessons_covered"]:checked')).map(el => el.value).join(', '), reader = new FileReader(); reader.onload = async () => { const base64File = reader.result, payload = { writerName: formData.get('writer_name'), submitterEmail: formData.get('submitter_email'), language: formData.get('language'), materialType: formData.get('material_type'), grade: formData.get('grade_level'), term: formData.get('term'), week: getWeekFromLesson(lessons), lessonsCovered: lessons, fileName: file.name, fileData: base64File }; try { await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) }); successModal.style.display = 'flex'; } catch (err) { alert("Submission failed."); } finally { btn.disabled = false; btn.textContent = originalText; } }; reader.readAsDataURL(file); } catch (err) { alert("Error: " + err.message); btn.disabled = false; btn.textContent = originalText; } };
+        document.getElementById('successBtnAnother').onclick = () => { const savedName = document.getElementById('writer_name').value, savedEmail = document.getElementById('submitter_email').value; document.getElementById('submissionForm').reset(); document.getElementById('writer_name').value = savedName; document.getElementById('submitter_email').value = savedEmail; document.getElementById('fileInfo').style.display = 'none'; successModal.style.display = 'none'; typeSelect.disabled = true; document.getElementById('continueSection').style.display = 'block'; document.getElementById('lessonsAndUploadSection').style.display = 'none'; continueBtn.disabled = true; continueBtn.style.background = '#64748b'; continueHint.style.display = 'block'; loadData(); window.scrollTo({ top: 0, behavior: 'smooth' }); };
         document.getElementById('successBtnLogout').onclick = () => { successModal.style.display = 'none'; forceLogout(); };
-
         const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTADigssvh4UCjCLyZ4SEAqQWJlWUqlrYk9AOGUB8a2Qop6Yglvn1IGj9rOArZoSWet3P5BV0KU5w4X/pub?gid=1041792494&single=true&output=csv";
-
-        async function loadData() {
-            try {
-                document.getElementById('lastUpdated').textContent = 'Loading...';
-                const res = await fetch(CSV_URL + '&cache=' + Date.now());
-                const csv = await res.text();
-                allData = parseCSV(csv);
-                filteredData = [...allData];
-                populateFilters();
-                updateDashboard();
-                refreshLessonGrid();
-                document.getElementById('lastUpdated').textContent = 'Updated: ' + new Date().toLocaleTimeString();
-            } catch (e) {
-                console.error(e);
-                document.getElementById('lastUpdated').textContent = 'Failed to load';
-            }
-        }
-
-        function parseCSV(csv) {
-            const lines = csv.trim().split('\n');
-            const headers = lines[0].split(',').map(h => h.trim());
-            return lines.slice(1).map(line => {
-                const values = line.split(',').map(v => v.trim().replace(/^"(.*)"$/, '$1'));
-                const obj = {};
-                headers.forEach((h, i) => obj[h] = values[i]);
-                return obj;
-            }).filter(d => d.Language);
-        }
-
-        function populateFilters() {
-            const langs = [...new Set(allData.map(d => d.Language))].sort();
-            const grades = [...new Set(allData.map(d => d.Grade))].sort();
-            const langSel = document.getElementById('languageFilter');
-            const gradeSel = document.getElementById('gradeFilter');
-            if (langSel.options.length <= 1) {
-                langs.forEach(l => langSel.add(new Option(l, l)));
-                grades.forEach(g => gradeSel.add(new Option(g, g)));
-            }
-        }
-
+        async function loadData() { try { document.getElementById('lastUpdated').textContent = 'Loading...'; const res = await fetch(CSV_URL + '&cache=' + Date.now()), csv = await res.text(); allData = parseCSV(csv); filteredData = [...allData]; populateFilters(); updateDashboard(); refreshLessonGrid(); document.getElementById('lastUpdated').textContent = 'Updated: ' + new Date().toLocaleTimeString(); } catch (e) { console.error(e); document.getElementById('lastUpdated').textContent = 'Failed to load'; } }
+        function parseCSV(csv) { const lines = csv.trim().split('\n'), headers = lines[0].split(',').map(h => h.trim()); return lines.slice(1).map(line => { const values = line.split(',').map(v => v.trim().replace(/^"(.*)"$/, '$1')); const obj = {}; headers.forEach((h, i) => obj[h] = values[i]); return obj; }).filter(d => d.Language); }
+        function populateFilters() { const langs = [...new Set(allData.map(d => d.Language))].sort(), grades = [...new Set(allData.map(d => d.Grade))].sort(), langSel = document.getElementById('languageFilter'), gradeSel = document.getElementById('gradeFilter'); if (langSel.options.length <= 1) { langs.forEach(l => langSel.add(new Option(l, l))); grades.forEach(g => gradeSel.add(new Option(g, g))); } }
         function updateDashboard() { applyFilters(); renderMetrics(); renderHeatmap(); renderBreakdown(); renderTable(); }
-
-        function applyFilters() {
-            const lang = document.getElementById('languageFilter').value;
-            const type = document.getElementById('materialTypeFilter').value;
-            const grade = document.getElementById('gradeFilter').value;
-            const stat = document.getElementById('statusFilter').value;
-            filteredData = allData.filter(d => {
-                return (lang === 'all' || d.Language === lang) &&
-                    (type === 'all' || d.Material_Type === type) &&
-                    (grade === 'all' || d.Grade === grade) &&
-                    (stat === 'all' || getStatus(d) === stat);
-            });
-        }
-
+        function applyFilters() { const lang = document.getElementById('languageFilter').value, type = document.getElementById('materialTypeFilter').value, grade = document.getElementById('gradeFilter').value, stat = document.getElementById('statusFilter').value; filteredData = allData.filter(d => (lang === 'all' || d.Language === lang) && (type === 'all' || d.Material_Type === type) && (grade === 'all' || d.Grade === grade) && (stat === 'all' || getStatus(d) === stat)); }
         function getStatus(d) { return d.QA_Status || 'Pending'; }
-
-        function renderMetrics() {
-            document.getElementById('totalCount').textContent = filteredData.length;
-            document.getElementById('passedCount').textContent = filteredData.filter(d => getStatus(d) === 'Passed').length;
-            document.getElementById('pendingCount').textContent = filteredData.filter(d => getStatus(d) === 'Pending').length;
-            document.getElementById('failedCount').textContent = filteredData.filter(d => getStatus(d) === 'Failed').length;
-        }
-
-        function renderHeatmap() {
-            const container = document.getElementById('heatmapContainer');
-            const groups = {};
-            filteredData.forEach(d => {
-                const key = `${d.Language} | ${d.Grade} (${d.Material_Type})`;
-                if (!groups[key]) groups[key] = new Set();
-                const lessons = (d.Lessons_Covered || '').split(/[,;]/);
-                lessons.forEach(l => {
-                    const clean = l.trim();
-                    if (clean) {
-                        const numbers = extractLessonNumbers(clean);
-                        numbers.forEach(num => groups[key].add(String(num)));
-                    }
-                });
-            });
-            const keys = Object.keys(groups).sort();
-            let html = '<div class="heatmap-grid">';
-            keys.forEach(key => {
-                const isIllustrations = key.toLowerCase().includes('illustrations');
-                html += `<div class="heatmap-row"><div class="heatmap-label">${key}</div><div class="heatmap-cells">`;
-                for (let i = 51; i <= 100; i++) {
-                    const covered = groups[key].has(String(i));
-                    let cls = 'heatmap-cell';
-                    if (covered) cls += ' covered';
-                    if (covered && isIllustrations) cls += ' illustrations';
-                    html += `<div class="${cls}" title="Lesson ${i}">${i}</div>`;
-                }
-                html += '</div></div>';
-            });
-            container.innerHTML = html + '</div>';
-        }
-
-        function renderBreakdown() {
-            const container = document.getElementById('languageBreakdown');
-            const langs = {};
-            filteredData.forEach(d => {
-                if (!langs[d.Language]) langs[d.Language] = { total: 0, passed: 0 };
-                langs[d.Language].total++;
-                if (getStatus(d) === 'Passed') langs[d.Language].passed++;
-            });
-            container.innerHTML = Object.entries(langs).map(([name, stats]) => {
-                const pct = Math.round((stats.passed / stats.total) * 100);
-                return `<div class="language-card"><div style="display:flex; justify-content:space-between; font-weight:600;"><span>${name}</span><span>${stats.total} submissions</span></div><div class="progress-bar-bg"><div class="progress-bar-fill" style="width:${pct}%"></div></div><div style="font-size:0.75rem; color:var(--text-secondary);">${pct}% Passed QA</div></div>`;
-            }).join('');
-        }
-
-        function renderTable() {
-            const container = document.getElementById('tableContent');
-            const sorted = [...filteredData].sort((a, b) => new Date(b.Timestamp) - new Date(a.Timestamp));
-            container.innerHTML = sorted.map(d => {
-                const status = getStatus(d);
-                const cls = 'status-' + status.toLowerCase().replace('_', '');
-                return `<tr><td>${new Date(d.Timestamp).toLocaleDateString()}</td><td><b>${d.Language}</b></td><td>${d.Grade}</td><td>${d.Material_Type}</td><td>${(d.Lessons_Covered || '').replace(/_/g, '/')}</td><td><span class="status-badge ${cls}">${status}</span></td></tr>`;
-            }).join('');
-        }
-
-        document.querySelectorAll('.filter-panel select').forEach(s => s.onchange = updateDashboard);
-        document.getElementById('refreshBtn').onclick = loadData;
-        loadData();
+        function renderMetrics() { document.getElementById('totalCount').textContent = filteredData.length; document.getElementById('passedCount').textContent = filteredData.filter(d => getStatus(d) === 'Passed').length; document.getElementById('pendingCount').textContent = filteredData.filter(d => getStatus(d) === 'Pending').length; document.getElementById('failedCount').textContent = filteredData.filter(d => getStatus(d) === 'Failed').length; }
+        function renderHeatmap() { const container = document.getElementById('heatmapContainer'), groups = {}; filteredData.forEach(d => { const key = `${d.Language} | ${d.Grade} (${d.Material_Type})`; if (!groups[key]) groups[key] = new Set(); const lessonData = d.Lessons_Covered || d['Lessons Covered'] || d.Lessons || d.lessonsCovered || ''; const numbers = extractLessonNumbers(lessonData); numbers.forEach(num => groups[key].add(String(num))); }); const keys = Object.keys(groups).sort(); let html = '<div class="heatmap-grid">'; keys.forEach(key => { const isIllustrations = key.toLowerCase().includes('illustrations'); html += `<div class="heatmap-row"><div class="heatmap-label">${key}</div><div class="heatmap-cells">`; for (let i = 51; i <= 100; i++) { const covered = groups[key].has(String(i)); let cls = 'heatmap-cell'; if (covered) cls += ' covered'; if (covered && isIllustrations) cls += ' illustrations'; html += `<div class="${cls}" title="Lesson ${i}">${i}</div>`; } html += '</div></div>'; }); container.innerHTML = html + '</div>'; }
+        function renderBreakdown() { const container = document.getElementById('languageBreakdown'), langs = {}; filteredData.forEach(d => { if (!langs[d.Language]) langs[d.Language] = { total: 0, passed: 0 }; langs[d.Language].total++; if (getStatus(d) === 'Passed') langs[d.Language].passed++; }); container.innerHTML = Object.entries(langs).map(([name, stats]) => { const pct = Math.round((stats.passed / stats.total) * 100); return `<div class="language-card"><div style="display:flex; justify-content:space-between; font-weight:600;"><span>${name}</span><span>${stats.total} submissions</span></div><div class="progress-bar-bg"><div class="progress-bar-fill" style="width:${pct}%"></div></div><div style="font-size:0.75rem; color:var(--text-secondary);">${pct}% Passed QA</div></div>`; }).join(''); }
+        function renderTable() { const container = document.getElementById('tableContent'), sorted = [...filteredData].sort((a, b) => new Date(b.Timestamp) - new Date(a.Timestamp)); container.innerHTML = sorted.map(d => { const status = getStatus(d), cls = 'status-' + status.toLowerCase().replace('_', ''); return `<tr><td>${new Date(d.Timestamp).toLocaleDateString()}</td><td><b>${d.Language}</b></td><td>${d.Grade}</td><td>${d.Material_Type}</td><td>${(d.Lessons_Covered || '').replace(/_/g, '/')}</td><td><span class="status-badge ${cls}">${status}</span></td></tr>`; }).join(''); }
+        document.querySelectorAll('.filter-panel select').forEach(s => s.onchange = updateDashboard); document.getElementById('refreshBtn').onclick = loadData; loadData();
     </script>
 </body>
 
