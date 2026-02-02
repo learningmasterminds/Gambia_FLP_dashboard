@@ -23,7 +23,7 @@ const ACCESS_KEYS = {
   "mamudout@gmail.com": "MMD-105",
   "victoriagor@gmail.com": "VIC-339",
   "jjmendy66@gmail.com": "JJM-882",
-  "bittayeami037@gmail.com": "BTA-514",
+  "bittayeamie037@gmail.com": "BTA-514",
   "gaindow0@gmail.com": "GDW-627",
   "madun.ma@gmail.com": "MDN-441",
   "ansusangang12@gmail.com": "ASN-992",
@@ -338,7 +338,7 @@ function sendUpdatedEmails() {
  * Send access code email specifically to Bittaye Ami
  */
 function sendEmailToBittaye() {
-  const email = "bittayeami037@gmail.com";
+  const email = "bittayeamie037@gmail.com";
   const accessCode = ACCESS_KEYS[email];
   
   if (!accessCode) {
