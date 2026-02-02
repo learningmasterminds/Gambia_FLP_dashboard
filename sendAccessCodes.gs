@@ -23,7 +23,7 @@ const ACCESS_KEYS = {
   "mamudout@gmail.com": "MMD-105",
   "victoriagor@gmail.com": "VIC-339",
   "jjmendy66@gmail.com": "JJM-882",
-  "bittayeami@gmail.com": "BTA-514",
+  "bittayeami037@gmail.com": "BTA-514",
   "gaindow0@gmail.com": "GDW-627",
   "madun.ma@gmail.com": "MDN-441",
   "ansusangang12@gmail.com": "ASN-992",
@@ -332,6 +332,36 @@ function sendUpdatedEmails() {
   });
   
   Logger.log("Finished. Sent " + successCount + " emails.");
+}
+
+/**
+ * Send access code email specifically to Bittaye Ami
+ */
+function sendEmailToBittaye() {
+  const email = "bittayeami037@gmail.com";
+  const accessCode = ACCESS_KEYS[email];
+  
+  if (!accessCode) {
+    Logger.log("❌ Error: Access code not found for " + email);
+    return;
+  }
+  
+  const subject = getEmailSubject();
+  const htmlBody = getEmailHtml(email, accessCode);
+  const plainBody = getEmailPlainText(email, accessCode);
+  
+  try {
+    MailApp.sendEmail({
+      to: email,
+      subject: subject,
+      body: plainBody,
+      htmlBody: htmlBody,
+      name: SENDER_NAME
+    });
+    Logger.log("✅ Successfully sent email to: " + email);
+  } catch (error) {
+    Logger.log("❌ Failed to send to " + email + ": " + error.message);
+  }
 }
 
 /**
