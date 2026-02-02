@@ -17,7 +17,7 @@ const SENDER_NAME = "Gambia FLP Materials Team";
 
 // Writer access codes (email: code)
 const ACCESS_KEYS = {
-  "alhagiesow@gmail.com": "ASW-762",
+  "alhagiesowe62@gmail.com": "ASW-762",
   "aboukhan4@gmail.com": "ABK-291",
   "ssurakata8@gmail.com": "SSK-483",
   "mamudout@gmail.com": "MMD-105",
@@ -34,7 +34,8 @@ const ACCESS_KEYS = {
   "kumbabah06@gmail.com": "KBB-614",
   "eakoto484@gmail.com": "EAK-484",
   "zahra.maishanu@learningmasterminds.org": "ZMN-847",
-  "betty.temeng@learningmasterminds.org": "BTM-529"
+  "betty.temeng@learningmasterminds.org": "BTM-529",
+  "amadoukhan91@gmail.com": "AMK-915"
 };
 
 // ========== EMAIL TEMPLATE ==========
@@ -254,6 +255,37 @@ function sendTestEmail() {
   
   Logger.log("✅ Test email sent to: " + testEmail);
   Logger.log("Check your inbox to preview the email format.");
+}
+
+/**
+ * Send access code email specifically to Amadou Khan
+ * Run this function to send just this single email.
+ */
+function sendEmailToAmadou() {
+  const email = "amadoukhan91@gmail.com";
+  const accessCode = ACCESS_KEYS[email];
+  
+  if (!accessCode) {
+    Logger.log("❌ Error: Access code not found for " + email);
+    return;
+  }
+  
+  const subject = getEmailSubject();
+  const htmlBody = getEmailHtml(email, accessCode);
+  const plainBody = getEmailPlainText(email, accessCode);
+  
+  try {
+    MailApp.sendEmail({
+      to: email,
+      subject: subject,
+      body: plainBody,
+      htmlBody: htmlBody,
+      name: SENDER_NAME
+    });
+    Logger.log("✅ Successfully sent email to: " + email);
+  } catch (error) {
+    Logger.log("❌ Failed to send to " + email + ": " + error.message);
+  }
 }
 
 /**
