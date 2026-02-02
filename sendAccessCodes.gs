@@ -26,8 +26,8 @@ const ACCESS_KEYS = {
   "bittayeami@gmail.com": "BTA-514",
   "gaindow0@gmail.com": "GDW-627",
   "madun.ma@gmail.com": "MDN-441",
-  "ansusanya@gmail.com": "ASN-992",
-  "laminbjam@gmail.com": "LJM-308",
+  "ansusangang12@gmail.com": "ASN-992",
+  "laminbjamm1@gmail.com": "LJM-308",
   "amsanjie7@gmail.com": "AMS-176",
   "saphiecam@gmail.com": "SPC-825",
   "camaralisa@gmail.com": "CLS-903",
@@ -286,6 +286,52 @@ function sendEmailToAmadou() {
   } catch (error) {
     Logger.log("❌ Failed to send to " + email + ": " + error.message);
   }
+}
+
+/**
+ * Send updated access code emails to:
+ * - Alhagie Sowe
+ * - Ansu Sanya
+ * - Lamin Jammeh
+ */
+function sendUpdatedEmails() {
+  const targetEmails = [
+    "ansusangang12@gmail.com",
+    "laminbjamm1@gmail.com",
+    "alhagiesowe62@gmail.com"
+  ];
+  
+  const subject = getEmailSubject();
+  let successCount = 0;
+  
+  Logger.log("Sending updated access codes to " + targetEmails.length + " specific users...");
+  
+  targetEmails.forEach(email => {
+    const accessCode = ACCESS_KEYS[email];
+    if (!accessCode) {
+      Logger.log("❌ Error: Code not found for " + email);
+      return;
+    }
+    
+    try {
+      const htmlBody = getEmailHtml(email, accessCode);
+      const plainBody = getEmailPlainText(email, accessCode);
+      
+      MailApp.sendEmail({
+        to: email,
+        subject: subject,
+        body: plainBody,
+        htmlBody: htmlBody,
+        name: SENDER_NAME
+      });
+      Logger.log("✅ Successfully sent to: " + email);
+      successCount++;
+    } catch (error) {
+      Logger.log("❌ Failed to send to " + email + ": " + error.message);
+    }
+  });
+  
+  Logger.log("Finished. Sent " + successCount + " emails.");
 }
 
 /**
