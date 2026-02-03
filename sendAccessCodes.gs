@@ -25,7 +25,7 @@ const ACCESS_KEYS = {
   "jjmendy66@gmail.com": "JJM-882",
   "bittayeamie037@gmail.com": "BTA-514",
   "gaindow0@gmail.com": "GDW-627",
-  "madun.ma@gmail.com": "MDN-441",
+  "madun.marong@edugambia.gm": "MDN-441",
   "ansusangang12@gmail.com": "ASN-992",
   "laminbjamm1@gmail.com": "LJM-308",
   "amsanjie7@gmail.com": "AMS-176",
@@ -35,7 +35,11 @@ const ACCESS_KEYS = {
   "eakoto484@gmail.com": "EAK-484",
   "zahra.maishanu@learningmasterminds.org": "ZMN-847",
   "betty.temeng@learningmasterminds.org": "BTM-529",
-  "amadoukhan91@gmail.com": "AMK-915"
+  "amadoukhan91@gmail.com": "AMK-915",
+  "jayeadama2@gmail.com": "JYE-284",
+  "victoriagomez1881@gmail.com": "VGM-188",
+  "samboumodou53@gmail.com": "SBM-530",
+  "philomensayang99@gmail.com": "PHY-991"
 };
 
 // ========== EMAIL TEMPLATE ==========
@@ -362,6 +366,51 @@ function sendEmailToBittaye() {
   } catch (error) {
     Logger.log("❌ Failed to send to " + email + ": " + error.message);
   }
+}
+
+/**
+ * Send access codes to the new batch of writers (Feb 3 Addition)
+ */
+function sendNewBatchEmails() {
+  const newEmails = [
+    "madun.marong@edugambia.gm",
+    "jayeadama2@gmail.com",
+    "victoriagomez1881@gmail.com",
+    "samboumodou53@gmail.com",
+    "philomensayang99@gmail.com"
+  ];
+  
+  const subject = getEmailSubject();
+  let successCount = 0;
+  
+  Logger.log("Sending access codes to NEW batch (" + newEmails.length + " users)...");
+  
+  newEmails.forEach(email => {
+    const accessCode = ACCESS_KEYS[email];
+    if (!accessCode) {
+      Logger.log("❌ Error: Code not found for " + email);
+      return;
+    }
+    
+    try {
+      const htmlBody = getEmailHtml(email, accessCode);
+      const plainBody = getEmailPlainText(email, accessCode);
+      
+      MailApp.sendEmail({
+        to: email,
+        subject: subject,
+        body: plainBody,
+        htmlBody: htmlBody,
+        name: SENDER_NAME
+      });
+      Logger.log("✅ Successfully sent to: " + email);
+      successCount++;
+    } catch (error) {
+      Logger.log("❌ Failed to send to " + email + ": " + error.message);
+    }
+  });
+  
+  Logger.log("Finished. Sent " + successCount + " emails.");
 }
 
 /**
