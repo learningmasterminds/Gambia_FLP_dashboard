@@ -19,7 +19,7 @@ const SENDER_NAME = "Gambia FLP Materials Team";
 const ACCESS_KEYS = {
   "alhagiesowe62@gmail.com": "ASW-762",
   "aboukhan4@gmail.com": "ABK-291",
-  "ssurakata8@gmail.com": "SSK-483",
+  "ssurakata89@gmail.com": "SSK-483",
   "mamudout@gmail.com": "MMD-105",
   "victoriagor@gmail.com": "VIC-339",
   "jjmendy66@gmail.com": "JJM-882",
@@ -418,6 +418,36 @@ function sendNewBatchEmails() {
  */
 function sendEmailToAnsu() {
   const email = "ansusanyang12@gmail.com";
+  const accessCode = ACCESS_KEYS[email];
+  
+  if (!accessCode) {
+    Logger.log("❌ Error: Access code not found for " + email);
+    return;
+  }
+  
+  const subject = getEmailSubject();
+  const htmlBody = getEmailHtml(email, accessCode);
+  const plainBody = getEmailPlainText(email, accessCode);
+  
+  try {
+    MailApp.sendEmail({
+      to: email,
+      subject: subject,
+      body: plainBody,
+      htmlBody: htmlBody,
+      name: SENDER_NAME
+    });
+    Logger.log("✅ Successfully sent email to: " + email);
+  } catch (error) {
+    Logger.log("❌ Failed to send to " + email + ": " + error.message);
+  }
+}
+
+/**
+ * Send access code email specifically to Sura (Surakata)
+ */
+function sendEmailToSura() {
+  const email = "ssurakata89@gmail.com";
   const accessCode = ACCESS_KEYS[email];
   
   if (!accessCode) {
