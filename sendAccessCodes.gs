@@ -29,7 +29,10 @@ const ACCESS_KEYS = {
   "ansusanyang12@gmail.com": "ASN-992",
   "laminbjamm1@gmail.com": "LJM-308",
   "amsanjie7@gmail.com": "AMS-176",
-  "saphiecam@gmail.com": "SPC-825",
+  "saphiecamara@gmail.com": "SPC-825",
+  "kamarastevens88@gmail.com": "KST-881",
+  "hotinkmedia@gmail.com": "HIM-112",
+  "igoriefe@gmail.com": "IFE-345",
   "camaralisa@gmail.com": "CLS-903",
   "kumbabah06@gmail.com": "KBB-614",
   "eakoto484@gmail.com": "EAK-484",
@@ -523,6 +526,91 @@ function sendAccessCodeEmails() {
   
   return { success: successCount, failed: errorCount, errors: errors };
 }
+
+/**
+ * Send access code emails to Saphie Camara and Kamara Stevens
+ */
+function sendEmailToSaphieAndKamara() {
+  const targetEmails = [
+    "saphiecamara@gmail.com",
+    "kamarastevens88@gmail.com"
+  ];
+  
+  const subject = getEmailSubject();
+  let successCount = 0;
+  
+  Logger.log("Sending access codes to Saphie Camara and Kamara Stevens...");
+  
+  targetEmails.forEach(email => {
+    const accessCode = ACCESS_KEYS[email];
+    if (!accessCode) {
+      Logger.log("❌ Error: Code not found for " + email);
+      return;
+    }
+    
+    try {
+      const htmlBody = getEmailHtml(email, accessCode);
+      const plainBody = getEmailPlainText(email, accessCode);
+      
+      MailApp.sendEmail({
+        to: email,
+        subject: subject,
+        body: plainBody,
+        htmlBody: htmlBody,
+        name: SENDER_NAME
+      });
+      Logger.log("✅ Successfully sent to: " + email);
+      successCount++;
+    } catch (error) {
+      Logger.log("❌ Failed to send to " + email + ": " + error.message);
+    }
+  });
+  
+  Logger.log("Finished. Sent " + successCount + " emails.");
+}
+
+/**
+ * Send access code emails to Hotink Media and Igor Efe
+ */
+function sendEmailToHotinkAndIgor() {
+  const targetEmails = [
+    "hotinkmedia@gmail.com",
+    "igoriefe@gmail.com"
+  ];
+  
+  const subject = getEmailSubject();
+  let successCount = 0;
+  
+  Logger.log("Sending access codes to Hotink Media and Igor Efe...");
+  
+  targetEmails.forEach(email => {
+    const accessCode = ACCESS_KEYS[email];
+    if (!accessCode) {
+      Logger.log("❌ Error: Code not found for " + email);
+      return;
+    }
+    
+    try {
+      const htmlBody = getEmailHtml(email, accessCode);
+      const plainBody = getEmailPlainText(email, accessCode);
+      
+      MailApp.sendEmail({
+        to: email,
+        subject: subject,
+        body: plainBody,
+        htmlBody: htmlBody,
+        name: SENDER_NAME
+      });
+      Logger.log("✅ Successfully sent to: " + email);
+      successCount++;
+    } catch (error) {
+      Logger.log("❌ Failed to send to " + email + ": " + error.message);
+    }
+  });
+  
+  Logger.log("Finished. Sent " + successCount + " emails.");
+}
+
 
 /**
  * Check remaining email quota
