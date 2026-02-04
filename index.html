@@ -919,6 +919,18 @@
         const continueBtn = document.getElementById('continueBtn'), continueHint = document.getElementById('continueHint'), lessonsSection = document.getElementById('lessonsAndUploadSection');
         function checkContinueReady() { const lang = document.getElementById('language').value, grade = document.getElementById('grade_level').value, type = document.getElementById('material_type').value, term = document.getElementById('term').value, ready = lang && grade && type && term; continueBtn.disabled = !ready; continueBtn.style.background = ready ? 'var(--primary)' : '#64748b'; continueHint.style.display = ready ? 'none' : 'block'; }
         ['language', 'grade_level', 'material_type', 'term'].forEach(id => { document.getElementById(id).addEventListener('change', checkContinueReady); });
+        document.getElementById('material_type').addEventListener('change', function () {
+            const isIllustrations = this.value === 'Illustrations';
+            const fileInput = document.getElementById('file_upload');
+            const dropZoneText = document.querySelector('#dropZone p:nth-child(3)');
+            if (isIllustrations) {
+                fileInput.setAttribute('multiple', 'true');
+                dropZoneText.innerHTML = 'Images (JPG/PNG) - <span style="color:var(--primary); font-weight:600;">Max 5 Files</span>';
+            } else {
+                fileInput.removeAttribute('multiple');
+                dropZoneText.textContent = 'Word (.docx), PDF, or Images (JPG/PNG)';
+            }
+        });
         continueBtn.addEventListener('click', () => { refreshLessonGrid(); lessonsSection.style.display = 'block'; document.getElementById('continueSection').style.display = 'none'; lessonsSection.scrollIntoView({ behavior: 'smooth' }); });
         function getWeekFromLesson(lessonStr) { const firstLesson = parseInt(lessonStr.split(/[_,]/)[0], 10); if (isNaN(firstLesson) || firstLesson < 51) return '1'; return String(Math.ceil((firstLesson - 50) / 5)); }
         function normalizeGrade(grade) { if (!grade) return ''; return grade.toString().trim().replace(/[_\s]+/g, ' ').replace(/\s+/g, ' ').trim(); }
@@ -930,9 +942,77 @@
         function refreshLessonGrid() { const grid = document.getElementById('lessonGrid'), lang = document.getElementById('language').value, gradeRaw = document.getElementById('grade_level').value, type = document.getElementById('material_type').value, term = document.getElementById('term').value, gradeNormalized = normalizeGrade(gradeRaw), range = getLessonRangeForTerm(term); document.getElementById('lessonRangeLabel').textContent = `(${range.label})`; grid.innerHTML = ''; const existingLessons = new Set(), existingLessonCodes = new Set(); if (allData && allData.length > 0) { allData.forEach(d => { const csvGradeNormalized = normalizeGrade(d.Grade); if (d.Language === lang && csvGradeNormalized === gradeNormalized && d.Material_Type === type) { const lessonData = d.Lessons_Covered || d['Lessons Covered'] || d.Lessons || d.lessonsCovered || ''; const allNumbers = extractLessonNumbers(lessonData); allNumbers.forEach(num => existingLessons.add(String(num))); const lessons = lessonData.split(/[,;]/); lessons.forEach(l => { const clean = l.trim(); if (clean) { const normalized = normalizeLessonCode(clean); existingLessonCodes.add(normalized); } }); } }); } console.log('Searching for:', { lang, gradeNormalized, type, term }); console.log('Found submitted lessons:', Array.from(existingLessons)); console.log('Found submitted codes:', Array.from(existingLessonCodes)); const summaryDiv = document.getElementById('submissionSummary'), summaryText = document.getElementById('summaryText'); if (existingLessons.size > 0) { const sortedLessons = Array.from(existingLessons).map(n => parseInt(n, 10)).filter(n => n >= range.start && n <= range.end).sort((a, b) => a - b); if (sortedLessons.length > 0) { summaryText.textContent = `Lessons ${sortedLessons.join(', ')} have been previously submitted for ${lang} ${gradeNormalized} ${type}.`; summaryDiv.style.display = 'block'; } else { summaryDiv.style.display = 'none'; } } else { summaryDiv.style.display = 'none'; } const weeks = generateWeeksForTerm(term); weeks.forEach(week => { const group = document.createElement('div'); group.className = 'week-group'; let submittedInWeek = 0, totalInWeek = week.lessons.length; week.lessons.forEach(l => { if (isLessonSubmitted(l[0], existingLessons)) submittedInWeek++; }); let titleHTML = `<div class="week-title" style="display:flex;align-items:center;">Week ${week.id} (${week.range})`; if (submittedInWeek > 0) { titleHTML += `<span class="week-submission-badge">${submittedInWeek}/${totalInWeek} submitted</span>`; titleHTML += `<button type="button" class="edit-toggle-btn" data-week="${week.id}" onclick="toggleWeekEdit(this)">✏️ Edit</button>`; } titleHTML += `</div><div class="lesson-options"></div>`; group.innerHTML = titleHTML; const optDiv = group.querySelector('.lesson-options'); week.lessons.forEach(l => { const lessonCode = l[0], displayLabel = l[1], isSubmitted = isLessonSubmitted(lessonCode, existingLessons); const label = document.createElement('label'); label.className = 'checkbox-item' + (isSubmitted ? ' already-submitted' : ''); label.innerHTML = `<input type="checkbox" name="lessons_covered" value="${lessonCode}" ${isSubmitted ? 'disabled' : ''}><span>${displayLabel}</span>`; optDiv.appendChild(label); }); grid.appendChild(group); }); }
         function toggleWeekEdit(btn) { const weekGroup = btn.closest('.week-group'), isShowing = weekGroup.classList.toggle('show-submitted'); if (isShowing) { btn.classList.add('active'); btn.textContent = '✓ Done'; weekGroup.querySelectorAll('.checkbox-item.already-submitted input').forEach(input => { input.disabled = false; input.checked = true; }); } else { btn.classList.remove('active'); btn.textContent = '✏️ Edit'; weekGroup.querySelectorAll('.checkbox-item.already-submitted input').forEach(input => { input.disabled = true; input.checked = false; }); } }
         window.toggleWeekEdit = toggleWeekEdit; refreshLessonGrid();
-        const dropZone = document.getElementById('dropZone'), fileInput = document.getElementById('file_upload'); dropZone.onclick = () => fileInput.click(); fileInput.onchange = e => { if (e.target.files.length) { document.getElementById('fileName').textContent = e.target.files[0].name; document.getElementById('fileInfo').style.display = 'block'; } };
+        const dropZone = document.getElementById('dropZone'), fileInput = document.getElementById('file_upload'); dropZone.onclick = () => fileInput.click();
+        fileInput.onchange = e => {
+            if (e.target.files.length) {
+                if (e.target.files.length > 5) {
+                    alert('Maximum 5 files allowed.');
+                    fileInput.value = '';
+                    document.getElementById('fileInfo').style.display = 'none';
+                    return;
+                }
+                const count = e.target.files.length;
+                document.getElementById('fileName').textContent = count > 1 ? `${count} files selected` : e.target.files[0].name;
+                document.getElementById('fileInfo').style.display = 'block';
+            }
+        };
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxVvlWJcKUGC-70aZ4qP7sGKmDVpxj25LtKTkwTj9GLsCgpoZGE1DDJYf4dpHZ6lhc88w/exec", successModal = document.getElementById('successModal'), submissionForm = document.getElementById('submissionForm');
-        submissionForm.onsubmit = async e => { e.preventDefault(); const btn = document.getElementById('submitBtn'), originalText = btn.textContent; if (!SCRIPT_URL) { alert("Backend not connected."); return; } btn.disabled = true; btn.textContent = '📤 Uploading...'; try { const formData = new FormData(submissionForm), fileInput = document.getElementById('file_upload'), file = fileInput.files[0], lessons = Array.from(document.querySelectorAll('input[name="lessons_covered"]:checked')).map(el => el.value).join(', '), reader = new FileReader(); reader.onload = async () => { const base64File = reader.result, payload = { writerName: formData.get('writer_name'), submitterEmail: formData.get('submitter_email'), language: formData.get('language'), materialType: formData.get('material_type'), grade: formData.get('grade_level'), term: formData.get('term'), week: getWeekFromLesson(lessons), lessonsCovered: lessons, fileName: file.name, fileData: base64File }; try { await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) }); successModal.style.display = 'flex'; } catch (err) { alert("Submission failed."); } finally { btn.disabled = false; btn.textContent = originalText; } }; reader.readAsDataURL(file); } catch (err) { alert("Error: " + err.message); btn.disabled = false; btn.textContent = originalText; } };
+        submissionForm.onsubmit = async e => {
+            e.preventDefault();
+            const btn = document.getElementById('submitBtn'), originalText = btn.textContent;
+            if (!SCRIPT_URL) { alert("Backend not connected."); return; }
+
+            const fileInput = document.getElementById('file_upload');
+            const files = fileInput.files;
+
+            if (files.length === 0) { alert("Please select a file."); return; }
+
+            btn.disabled = true;
+
+            try {
+                const formData = new FormData(submissionForm);
+                const lessons = Array.from(document.querySelectorAll('input[name="lessons_covered"]:checked')).map(el => el.value).join(', ');
+
+                for (let i = 0; i < files.length; i++) {
+                    const file = files[i];
+                    btn.textContent = files.length > 1 ? `📤 Uploading ${i + 1} of ${files.length}...` : '📤 Uploading...';
+
+                    await new Promise((resolve, reject) => {
+                        const reader = new FileReader();
+                        reader.onload = async () => {
+                            const base64File = reader.result;
+                            const payload = {
+                                writerName: formData.get('writer_name'),
+                                submitterEmail: formData.get('submitter_email'),
+                                language: formData.get('language'),
+                                materialType: formData.get('material_type'),
+                                grade: formData.get('grade_level'),
+                                term: formData.get('term'),
+                                week: getWeekFromLesson(lessons),
+                                lessonsCovered: lessons,
+                                fileName: file.name,
+                                fileData: base64File
+                            };
+                            try {
+                                await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
+                                resolve();
+                            } catch (err) {
+                                reject(err);
+                            }
+                        };
+                        reader.onerror = reject;
+                        reader.readAsDataURL(file);
+                    });
+                }
+
+                successModal.style.display = 'flex';
+            } catch (err) {
+                alert("Submission failed: " + err.message);
+            } finally {
+                btn.disabled = false;
+                btn.textContent = originalText;
+            }
+        };
         document.getElementById('successBtnAnother').onclick = () => { const savedName = document.getElementById('writer_name').value, savedEmail = document.getElementById('submitter_email').value; document.getElementById('submissionForm').reset(); document.getElementById('writer_name').value = savedName; document.getElementById('submitter_email').value = savedEmail; document.getElementById('fileInfo').style.display = 'none'; successModal.style.display = 'none'; typeSelect.disabled = true; document.getElementById('continueSection').style.display = 'block'; document.getElementById('lessonsAndUploadSection').style.display = 'none'; continueBtn.disabled = true; continueBtn.style.background = '#64748b'; continueHint.style.display = 'block'; loadData(); window.scrollTo({ top: 0, behavior: 'smooth' }); };
         document.getElementById('successBtnLogout').onclick = () => { successModal.style.display = 'none'; forceLogout(); };
         const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTADigssvh4UCjCLyZ4SEAqQWJlWUqlrYk9AOGUB8a2Qop6Yglvn1IGj9rOArZoSWet3P5BV0KU5w4X/pub?gid=1041792494&single=true&output=csv";

@@ -986,6 +986,19 @@
             }
         });
 
+        typeSelect.addEventListener('change', function () {
+            const isIllustrations = this.value === 'Illustrations';
+            const fileInput = document.getElementById('file_upload');
+            const dropZoneText = document.querySelector('#dropZone p:nth-child(3)');
+            if (isIllustrations) {
+                fileInput.setAttribute('multiple', 'true');
+                dropZoneText.innerHTML = 'Images (JPG/PNG) - <span style="color:var(--primary); font-weight:600;">Max 5 Files</span>';
+            } else {
+                fileInput.removeAttribute('multiple');
+                dropZoneText.textContent = 'Word (.docx), PDF, or Images (JPG/PNG)';
+            }
+        });
+
         // Grid Generation
         const grid = document.getElementById('lessonGrid');
         const weeks = [
@@ -1019,23 +1032,49 @@
         dropZone.onclick = () => fileInput.click();
         fileInput.onchange = (e) => {
             if (e.target.files.length) {
-                document.getElementById('fileName').textContent = e.target.files[0].name;
+                if (e.target.files.length > 5) {
+                    alert('Maximum 5 files allowed.');
+                    fileInput.value = '';
+                    document.getElementById('fileInfo').style.display = 'none';
+                    return;
+                }
+                const count = e.target.files.length;
+                document.getElementById('fileName').textContent = count > 1 ? `${count} files selected` : e.target.files[0].name;
                 document.getElementById('fileInfo').style.display = 'block';
             }
         };
 
         // Submit
         const successModal = document.getElementById('successModal');
-        document.getElementById('submissionForm').onsubmit = (e) => {
+        document.getElementById('submissionForm').onsubmit = async (e) => {
             e.preventDefault();
             const btn = document.getElementById('submitBtn');
-            btn.disabled = true; btn.textContent = 'Submitting...';
+            const originalText = btn.textContent;
 
-            // In a real scenario, this would be an actual fetch to Apps Script
-            setTimeout(() => {
-                successModal.style.display = 'flex';
-                btn.disabled = false; btn.textContent = 'Submit Material';
-            }, 1000);
+            // Re-check SCRIPT_URL availability logic if needed, though this file seems to mock it or handle it differently?
+            // Assuming SCRIPT_URL is available globally or we use the mock logic.
+            // Wait, index_new.html doesn't seem to have SCRIPT_URL defined in the viewed snippet?
+            // Actually, let's look at index.html reference. It has SCRIPT_URL.
+            // index_new.html in the previous view seemed to have a mock submit (lines 1034-1038).
+            // "In a real scenario, this would be an actual fetch to Apps Script"
+            // I should probably keep the mock logic if it's a mock file, OR if it's meant to be live, I should check if SCRIPT_URL is defined.
+            // Let's assume for now we keep the structure but add the loop simulation.
+
+            const fileInput = document.getElementById('file_upload');
+            const files = fileInput.files;
+
+            if (files.length === 0) { alert("Please select a file."); return; }
+
+            btn.disabled = true;
+
+            // Mock Sequential Upload
+            for (let i = 0; i < files.length; i++) {
+                btn.textContent = files.length > 1 ? `Submitting ${i + 1} of ${files.length}...` : 'Submitting...';
+                await new Promise(r => setTimeout(r, 1000)); // Simulate upload
+            }
+
+            successModal.style.display = 'flex';
+            btn.disabled = false; btn.textContent = 'Submit Material';
         };
 
         document.getElementById('successBtnAnother').onclick = () => {
