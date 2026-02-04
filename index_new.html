@@ -975,9 +975,11 @@
                     typeSelect.appendChild(el);
                 });
             } else if (grade.includes('ECD')) {
-                const el = document.createElement('option');
-                el.value = 'Teacher Guide'; el.textContent = 'Teacher Guide';
-                typeSelect.appendChild(el);
+                [{ value: 'Teacher Guide', label: 'Teacher Guide' }, { value: 'Illustrations', label: 'Illustrations' }].forEach(opt => {
+                    const el = document.createElement('option');
+                    el.value = opt.value; el.textContent = opt.label;
+                    typeSelect.appendChild(el);
+                });
             } else {
                 typeSelect.disabled = true;
                 typeSelect.innerHTML = '<option value="">Select Grade First</option>';
