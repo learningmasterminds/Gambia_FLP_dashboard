@@ -27,7 +27,7 @@ const ACCESS_KEYS = {
   "gaindow0@gmail.com": "GDW-627",
   "madun.marong@edugambia.gm": "MDN-441",
   "ansusanyang12@gmail.com": "ASN-992",
-  "laminbjamm1@gmail.com": "LJM-308",
+  "laminbjammeh1@gmail.com": "LJM-308",
   "amsanjie7@gmail.com": "AMS-176",
   "saphiecamara@gmail.com": "SPC-825",
   "kamarastevens88@gmail.com": "KST-881",
@@ -40,7 +40,7 @@ const ACCESS_KEYS = {
   "betty.temeng@learningmasterminds.org": "BTM-529",
   "amadoukhan91@gmail.com": "AMK-915",
   "jayeadama2@gmail.com": "JYE-284",
-  "victoriagomez1881@gmail.com": "VGM-188",
+  "vicksingomez1881@gmail.com": "VGM-188",
   "samboumodou53@gmail.com": "SBM-530",
   "philomensayang99@gmail.com": "PHY-991"
 };
@@ -304,7 +304,7 @@ function sendEmailToAmadou() {
 function sendUpdatedEmails() {
   const targetEmails = [
     "ansusangang12@gmail.com",
-    "laminbjamm1@gmail.com",
+    "laminbjammeh1@gmail.com",
     "alhagiesowe62@gmail.com"
   ];
   
@@ -612,10 +612,54 @@ function sendEmailToHotinkAndIgor() {
 }
 
 
+
+/**
+ * Send access code emails to Victoria Gomez and Lamin Jammeh
+ */
+function sendEmailToVictoriaAndLamin() {
+  const targetEmails = [
+    "vicksingomez1881@gmail.com",
+    "laminbjammeh1@gmail.com"
+  ];
+  
+  const subject = getEmailSubject();
+  let successCount = 0;
+  
+  Logger.log("Sending access codes to Victoria Gomez and Lamin Jammeh...");
+  
+  targetEmails.forEach(email => {
+    const accessCode = ACCESS_KEYS[email];
+    if (!accessCode) {
+      Logger.log("❌ Error: Code not found for " + email);
+      return;
+    }
+    
+    try {
+      const htmlBody = getEmailHtml(email, accessCode);
+      const plainBody = getEmailPlainText(email, accessCode);
+      
+      MailApp.sendEmail({
+        to: email,
+        subject: subject,
+        body: plainBody,
+        htmlBody: htmlBody,
+        name: SENDER_NAME
+      });
+      Logger.log("✅ Successfully sent to: " + email);
+      successCount++;
+    } catch (error) {
+      Logger.log("❌ Failed to send to " + email + ": " + error.message);
+    }
+  });
+  
+  Logger.log("Finished. Sent " + successCount + " emails.");
+}
+
 /**
  * Check remaining email quota
  */
 function checkEmailQuota() {
+
   const remaining = MailApp.getRemainingDailyQuota();
   Logger.log("Remaining daily email quota: " + remaining);
   Logger.log("Writers to email: " + Object.keys(ACCESS_KEYS).length);
