@@ -800,7 +800,9 @@
             } catch (error) {
                 console.error('❌ Error loading data:', error);
                 if (!silent) {
-                    document.getElementById('lastUpdated').textContent = 'Error loading data';
+                    const msg = error.message || error.toString();
+                    document.getElementById('lastUpdated').textContent = 'Error: ' + msg.substring(0, 30);
+                    document.getElementById('lastUpdated').title = msg; // Tooltip for full error
                 }
             }
         }
