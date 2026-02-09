@@ -967,7 +967,8 @@
                     { value: 'Pupil Book Story Planner', label: 'Pupil Book Story Planner' },
                     { value: 'Pupil Book', label: 'Pupil Book' },
                     { value: 'Teacher Guide', label: 'Teacher Guide' },
-                    { value: 'Illustrations', label: 'Illustrations' }
+                    { value: 'Illustrations', label: 'Illustrations' },
+                    { value: 'Layouts', label: 'Layouts' }
                 ];
                 options.forEach(opt => {
                     const el = document.createElement('option');
@@ -975,7 +976,7 @@
                     typeSelect.appendChild(el);
                 });
             } else if (grade.includes('ECD')) {
-                [{ value: 'Teacher Guide', label: 'Teacher Guide' }, { value: 'Illustrations', label: 'Illustrations' }].forEach(opt => {
+                [{ value: 'Teacher Guide', label: 'Teacher Guide' }, { value: 'Illustrations', label: 'Illustrations' }, { value: 'Layouts', label: 'Layouts' }].forEach(opt => {
                     const el = document.createElement('option');
                     el.value = opt.value; el.textContent = opt.label;
                     typeSelect.appendChild(el);
