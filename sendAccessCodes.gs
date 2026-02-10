@@ -42,7 +42,11 @@ const ACCESS_KEYS = {
   "jayeadama2@gmail.com": "JYE-284",
   "vicksingomez1881@gmail.com": "VGM-188",
   "samboumodou53@gmail.com": "SBM-530",
-  "philomensayang99@gmail.com": "PHY-991"
+  "philomensayang99@gmail.com": "PHY-991",
+  "Ceek2016@gmail.com": "KME-111",
+  "lamsking@gmail.com": "LDI-222",
+  "omardarboe83@gmail.com": "ODA-333",
+  "yugosaho@hotmail.com": "ESA-444"
 };
 
 // ========== EMAIL TEMPLATE ==========
@@ -671,4 +675,48 @@ function checkEmailQuota() {
   }
   
   return remaining;
+}
+
+/**
+ * Send access codes to the new batch (Feb 10)
+ */
+function sendEmailToNewBatchFeb10() {
+  const targetEmails = [
+    "Ceek2016@gmail.com",
+    "lamsking@gmail.com",
+    "omardarboe83@gmail.com",
+    "yugosaho@hotmail.com"
+  ];
+  
+  const subject = getEmailSubject();
+  let successCount = 0;
+  
+  Logger.log("Sending access codes to the Feb 10 batch...");
+  
+  targetEmails.forEach(email => {
+    const accessCode = ACCESS_KEYS[email];
+    if (!accessCode) {
+      Logger.log("❌ Error: Code not found for " + email);
+      return;
+    }
+    
+    try {
+      const htmlBody = getEmailHtml(email, accessCode);
+      const plainBody = getEmailPlainText(email, accessCode);
+      
+      MailApp.sendEmail({
+        to: email,
+        subject: subject,
+        body: plainBody,
+        htmlBody: htmlBody,
+        name: SENDER_NAME
+      });
+      Logger.log("✅ Successfully sent to: " + email);
+      successCount++;
+    } catch (error) {
+      Logger.log("❌ Failed to send to " + email + ": " + error.message);
+    }
+  });
+  
+  Logger.log("Finished. Sent " + successCount + " emails.");
 }
