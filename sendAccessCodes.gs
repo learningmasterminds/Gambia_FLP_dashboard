@@ -43,7 +43,7 @@ const ACCESS_KEYS = {
   "vicksingomez1881@gmail.com": "VGM-188",
   "samboumodou53@gmail.com": "SBM-530",
   "philomensayang99@gmail.com": "PHY-991",
-  "Ceek2016@gmail.com": "KME-111",
+  "ceek2016@gmail.com": "KME-111",
   "lamsking@gmail.com": "LDI-222",
   "omardarboe83@gmail.com": "ODA-333",
   "yugosaho@hotmail.com": "ESA-444"
@@ -682,7 +682,7 @@ function checkEmailQuota() {
  */
 function sendEmailToNewBatchFeb10() {
   const targetEmails = [
-    "Ceek2016@gmail.com",
+    "ceek2016@gmail.com",
     "lamsking@gmail.com",
     "omardarboe83@gmail.com",
     "yugosaho@hotmail.com"
