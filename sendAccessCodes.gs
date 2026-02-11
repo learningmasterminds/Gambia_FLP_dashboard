@@ -46,7 +46,8 @@ const ACCESS_KEYS = {
   "ceek2016@gmail.com": "KME-111",
   "lamsking@gmail.com": "LDI-222",
   "omardarboe83@gmail.com": "ODA-333",
-  "yugosaho@hotmail.com": "ESA-444"
+  "yugosaho@hotmail.com": "ESA-444",
+  "tonymalick398@gmail.com": "MTG-398"
 };
 
 // ========== EMAIL TEMPLATE ==========
@@ -719,4 +720,34 @@ function sendEmailToNewBatchFeb10() {
   });
   
   Logger.log("Finished. Sent " + successCount + " emails.");
+}
+
+/**
+ * Send access code email specifically to Malick Tony Gomez
+ */
+function sendEmailToMalick() {
+  const email = "tonymalick398@gmail.com";
+  const accessCode = ACCESS_KEYS[email];
+  
+  if (!accessCode) {
+    Logger.log("❌ Error: Access code not found for " + email);
+    return;
+  }
+  
+  const subject = getEmailSubject();
+  const htmlBody = getEmailHtml(email, accessCode);
+  const plainBody = getEmailPlainText(email, accessCode);
+  
+  try {
+    MailApp.sendEmail({
+      to: email,
+      subject: subject,
+      body: plainBody,
+      htmlBody: htmlBody,
+      name: SENDER_NAME
+    });
+    Logger.log("✅ Successfully sent email to: " + email);
+  } catch (error) {
+    Logger.log("❌ Failed to send to " + email + ": " + error.message);
+  }
 }
