@@ -47,7 +47,9 @@ const ACCESS_KEYS = {
   "lamsking@gmail.com": "LDI-222",
   "omardarboe83@gmail.com": "ODA-333",
   "yugosaho@hotmail.com": "ESA-444",
-  "tonymalick398@gmail.com": "MTG-398"
+  "tonymalick398@gmail.com": "MTG-398",
+  "fatimatafadera1976@icloud.com": "FFD-197",
+  "alpha.sowe373@gmail.com": "MAS-373"
 };
 
 // ========== EMAIL TEMPLATE ==========
@@ -750,4 +752,46 @@ function sendEmailToMalick() {
   } catch (error) {
     Logger.log("❌ Failed to send to " + email + ": " + error.message);
   }
+}
+
+/**
+ * Send access code emails to Fatmata Fadera and Momodou Alpha Sowe
+ */
+function sendEmailToFatmataAndMomodou() {
+  const targetEmails = [
+    "fatimatafadera1976@icloud.com",
+    "alpha.sowe373@gmail.com"
+  ];
+  
+  const subject = getEmailSubject();
+  let successCount = 0;
+  
+  Logger.log("Sending access codes to Fatmata and Momodou...");
+  
+  targetEmails.forEach(email => {
+    const accessCode = ACCESS_KEYS[email];
+    if (!accessCode) {
+      Logger.log("❌ Error: Code not found for " + email);
+      return;
+    }
+    
+    try {
+      const htmlBody = getEmailHtml(email, accessCode);
+      const plainBody = getEmailPlainText(email, accessCode);
+      
+      MailApp.sendEmail({
+        to: email,
+        subject: subject,
+        body: plainBody,
+        htmlBody: htmlBody,
+        name: SENDER_NAME
+      });
+      Logger.log("✅ Successfully sent to: " + email);
+      successCount++;
+    } catch (error) {
+      Logger.log("❌ Failed to send to " + email + ": " + error.message);
+    }
+  });
+  
+  Logger.log("Finished. Sent " + successCount + " emails.");
 }
