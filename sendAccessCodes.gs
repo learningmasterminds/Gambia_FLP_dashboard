@@ -49,7 +49,8 @@ const ACCESS_KEYS = {
   "yugosaho@hotmail.com": "ESA-444",
   "tonymalick398@gmail.com": "MTG-398",
   "fatimatafadera1976@icloud.com": "FFD-197",
-  "alpha.sowe373@gmail.com": "MAS-373"
+  "emyproductions97@gmail.com": "MJE-592",
+  "famara.camara@edugambia.gm": "FCA-123"
 };
 
 // ========== EMAIL TEMPLATE ==========
@@ -767,6 +768,49 @@ function sendEmailToFatmataAndMomodou() {
   let successCount = 0;
   
   Logger.log("Sending access codes to Fatmata and Momodou...");
+  
+  targetEmails.forEach(email => {
+    const accessCode = ACCESS_KEYS[email];
+    if (!accessCode) {
+      Logger.log("❌ Error: Code not found for " + email);
+      return;
+    }
+    
+    try {
+      const htmlBody = getEmailHtml(email, accessCode);
+      const plainBody = getEmailPlainText(email, accessCode);
+      
+      MailApp.sendEmail({
+        to: email,
+        subject: subject,
+        body: plainBody,
+        htmlBody: htmlBody,
+        name: SENDER_NAME
+      });
+      Logger.log("✅ Successfully sent to: " + email);
+      successCount++;
+    } catch (error) {
+      Logger.log("❌ Failed to send to " + email + ": " + error.message);
+    }
+  });
+  
+  Logger.log("Finished. Sent " + successCount + " emails.");
+}
+
+
+/**
+ * Send access code emails to Famara Camara and Muhammed Jobe
+ */
+function sendEmailToFamaraAndMuhammed() {
+  const targetEmails = [
+    "famara.camara@edugambia.gm",
+    "emyproductions97@gmail.com"
+  ];
+  
+  const subject = getEmailSubject();
+  let successCount = 0;
+  
+  Logger.log("Sending access codes to Famara and Muhammed...");
   
   targetEmails.forEach(email => {
     const accessCode = ACCESS_KEYS[email];
